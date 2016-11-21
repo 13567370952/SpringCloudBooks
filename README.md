@@ -19,13 +19,13 @@ svn://xxx.xxx.xxx.xxx/project_name/docs
 
 访问http://localhost:8001/discovery/
 界面如下：
-![enter image description here][1]
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1121/181013_db44c0d2_43183.jpeg "在这里输入图片标题")
 
 ### **服务端**
 
 访问http://localhost:8002/swagger-ui.html
 可以查看swagger文档，如下图：
-![enter image description here][2]
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1121/181042_2d280d46_43183.jpeg "在这里输入图片标题")
 相应技术为springboot+mysql+mybatis+hikariCP
 
 ### **API网关**
@@ -57,17 +57,11 @@ svn://xxx.xxx.xxx.xxx/project_name/docs
 可以查看某服务在一个server节点或多个server节点上的实时运行情况
 比如在搜索框输入http://localhost:8004/hystrix.stream，并在title输入框取名hystrix-test
 （注意在点击monitor stream按钮前，先运行http://localhost:8004/consumer/1），结果如下图
-![enter image description here][3]
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1121/181104_c7e009cc_43183.jpeg "在这里输入图片标题")
 
 也可以在搜索框输入http://localhost:8031/turbine.stream，并在title输入框取名turbine-test，看下列结果
-![enter image description here][4]
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1121/181120_76bbda44_43183.jpeg "在这里输入图片标题")
+
 
 这里因为服务只在我本机上部署，因此两张图是一样的，如果服务还部署在另外一台或多台server上，第二张图会显示多个server运行服务情况。如果此时有很多访问http://localhost:8004/consumer/1的请求，我们可以看见实时运行情况，如下图
-![enter image description here][5]
-
-
-[1]: C:\Users\Administrator\Desktop\rrr.jpg
-[2]: C:\Users\Administrator\Desktop\ttt.jpg
-[3]: C:\Users\Administrator\Desktop\aa.jpg
-[4]: C:\Users\Administrator\Desktop\bb.jpg
-[5]: C:\Users\Administrator\Desktop\ccc.jpg
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1121/181134_1c099321_43183.jpeg "在这里输入图片标题")
