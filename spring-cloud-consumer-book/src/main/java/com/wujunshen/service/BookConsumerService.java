@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * Time:14:36 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
-@FeignClient(name = "wujunshen-api-gateway", fallback = BookConsumerService.HystrixClientFallback.class)
+@FeignClient(name = "qk365-api-gateway", fallback = BookConsumerService.HystrixClientFallback.class)
 public interface BookConsumerService {
     Logger LOGGER = LoggerFactory.getLogger(BookConsumerService.class);
 

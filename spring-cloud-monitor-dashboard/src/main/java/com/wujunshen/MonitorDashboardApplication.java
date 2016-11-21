@@ -19,6 +19,7 @@ public class MonitorDashboardApplication {
 
     public static void main(String[] args) {
         LOGGER.info("start execute MonitorDashboardApplication....\n");
+        //SpringApplication.run(MonitorDashboardApplication.class, args);
         new SpringApplicationBuilder(MonitorDashboardApplication.class).web(true).run(args);
         LOGGER.info("end execute MonitorDashboardApplication....\n");
     }

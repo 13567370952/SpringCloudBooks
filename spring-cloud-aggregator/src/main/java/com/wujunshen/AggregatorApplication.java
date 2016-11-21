@@ -13,6 +13,7 @@ public class AggregatorApplication {
 
     public static void main(String[] args) {
         LOGGER.info("start execute AggregatorApplication....\n");
+        //SpringApplication.run(AggregatorApplication.class, args);
         new SpringApplicationBuilder(AggregatorApplication.class).web(true).run(args);
         LOGGER.info("end execute AggregatorApplication....\n");
     }
