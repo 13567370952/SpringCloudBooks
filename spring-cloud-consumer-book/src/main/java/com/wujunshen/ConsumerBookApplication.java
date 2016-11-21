@@ -12,12 +12,12 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableCircuitBreaker
-public class Ql365ConsumerBookApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Ql365ConsumerBookApplication.class);
+public class ConsumerBookApplication {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerBookApplication.class);
 
     public static void main(String[] args) {
         LOGGER.info("start execute Ql365ConsumerBookApplication....\n");
-        SpringApplication.run(Ql365ConsumerBookApplication.class, args);
+        SpringApplication.run(ConsumerBookApplication.class, args);
         LOGGER.info("end execute Ql365ConsumerBookApplication....\n");
     }
 }

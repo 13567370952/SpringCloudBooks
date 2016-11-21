@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class Qk365MonitorDashboardApplicationTests {
+public class AggregatorApplicationTests {
 
 	@Test
 	public void contextLoads() {

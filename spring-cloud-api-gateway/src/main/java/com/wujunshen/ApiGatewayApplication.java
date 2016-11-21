@@ -17,12 +17,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableDiscoveryClient
 @EnableConfigurationProperties(Audience.class)
 @EnableZuulProxy
-public class Qk365ApiGatewayApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Qk365ApiGatewayApplication.class);
+public class ApiGatewayApplication {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiGatewayApplication.class);
 
     public static void main(String[] args) {
-        LOGGER.info("start execute Qk365ApiGatewayApplication....\n");
-        SpringApplication.run(Qk365ApiGatewayApplication.class, args);
-        LOGGER.info("end execute Qk365ApiGatewayApplication....\n");
+        LOGGER.info("start execute ApiGatewayApplication....\n");
+        SpringApplication.run(ApiGatewayApplication.class, args);
+        LOGGER.info("end execute ApiGatewayApplication....\n");
     }
 }

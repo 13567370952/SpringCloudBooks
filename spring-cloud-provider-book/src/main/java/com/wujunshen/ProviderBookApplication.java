@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @MapperScan("com.wujunshen.dao")
 @EnableDiscoveryClient
-public class Qk365ProviderBookApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Qk365ProviderBookApplication.class);
+public class ProviderBookApplication {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProviderBookApplication.class);
 
     public static void main(String[] args) {
-        LOGGER.info("start execute Qk365ProviderBookApplication....\n");
-        SpringApplication.run(Qk365ProviderBookApplication.class, args);
-        LOGGER.info("end execute Qk365ProviderBookApplication....\n");
+        LOGGER.info("start execute ProviderBookApplication....\n");
+        SpringApplication.run(ProviderBookApplication.class, args);
+        LOGGER.info("end execute ProviderBookApplication....\n");
     }
 }

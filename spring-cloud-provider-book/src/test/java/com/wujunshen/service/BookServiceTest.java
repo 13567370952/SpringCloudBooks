@@ -1,6 +1,6 @@
 package com.wujunshen.service;
 
-import com.wujunshen.Qk365ProviderBookApplication;
+import com.wujunshen.ProviderBookApplication;
 import com.wujunshen.dao.BookMapper;
 import com.wujunshen.entity.Book;
 import org.junit.After;
@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Mail:frank_wjs@hotmail.com <br>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {Qk365ProviderBookApplication.class})
+@SpringApplicationConfiguration(classes = {ProviderBookApplication.class})
 //相当于  --spring.profiles.active=dev
 @ActiveProfiles(value = "dev")
 public class BookServiceTest {

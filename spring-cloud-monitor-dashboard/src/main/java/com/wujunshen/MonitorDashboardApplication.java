@@ -14,12 +14,12 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
  */
 @SpringBootApplication
 @EnableHystrixDashboard
-public class Qk365MonitorDashboardApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Qk365MonitorDashboardApplication.class);
+public class MonitorDashboardApplication {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MonitorDashboardApplication.class);
 
     public static void main(String[] args) {
-        LOGGER.info("start execute Qk365MonitorDashboardApplication....\n");
-        new SpringApplicationBuilder(Qk365MonitorDashboardApplication.class).web(true).run(args);
-        LOGGER.info("end execute Qk365MonitorDashboardApplication....\n");
+        LOGGER.info("start execute MonitorDashboardApplication....\n");
+        new SpringApplicationBuilder(MonitorDashboardApplication.class).web(true).run(args);
+        LOGGER.info("end execute MonitorDashboardApplication....\n");
     }
 }

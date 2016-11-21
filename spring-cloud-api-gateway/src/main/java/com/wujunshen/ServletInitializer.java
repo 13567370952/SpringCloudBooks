@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Qk365ApiGatewayApplication.class);
+        return application.sources(ApiGatewayApplication.class);
     }
 
 }

@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Ql365ConsumerBookApplication.class);
+        return application.sources(ConsumerBookApplication.class);
     }
 
 }
