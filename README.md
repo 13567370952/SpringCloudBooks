@@ -40,16 +40,19 @@ svn://xxx.xxx.xxx.xxx/project_name/docs
 目前只做了查询bookID的功能，可自行扩展其它crud操作，如http://localhost:8002/swagger-ui.html中的各接口
 这里还包括了负载均衡和熔断器功能，如果服务端访问不了，会访问相关故障信息,如下:
 ​    
-    {
+   ```
+ {
     "code": -99,
     "message": "无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！",
     "data": null
     }
+```
 
 
 ### **聚合服务节点**
 
-访问http://localhost:8031/turbine.stream可下载流文件，稍后等控制台启动后会具体说明此文件用处
+访问 http://localhost:8031/turbine.stream 
+可下载流文件，稍后等控制台启动后会具体说明此文件用处
 
 ### **服务监控控制台**
 
