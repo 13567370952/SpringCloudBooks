@@ -16,8 +16,8 @@ public class ConsumerBookApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerBookApplication.class);
 
     public static void main(String[] args) {
-        LOGGER.info("start execute Ql365ConsumerBookApplication....\n");
+        LOGGER.info("start execute ConsumerBookApplication....\n");
         SpringApplication.run(ConsumerBookApplication.class, args);
-        LOGGER.info("end execute Ql365ConsumerBookApplication....\n");
+        LOGGER.info("end execute ConsumerBookApplication....\n");
     }
 }
