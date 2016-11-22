@@ -12,7 +12,7 @@
 
 访问svn上配置文件所处位置，比如svn上某个地址
 svn://xxx.xxx.xxx.xxx/project_name/docs
-访问 http://localhost:8044/api/dev/docs
+访问 http://localhost:8000/api/dev/docs
 即显示docs目录下api-dev.properties文件中相关配置信息
 
 ### **服务发现**
