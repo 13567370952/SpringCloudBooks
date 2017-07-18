@@ -46,7 +46,7 @@ public interface BookConsumerService {
 
         @Override
         public BaseResultVo getToken(LoginParameter loginParameter) {
-            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", loginParameter);
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：userName = {}", loginParameter.getUserName());
             BaseResultVo baseResultVo = new BaseResultVo();
             baseResultVo.setCode(-99);
             baseResultVo.setMessage("无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");

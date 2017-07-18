@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * Mail:frank_wjs@hotmail.com <br>
  */
 @RestController
-@Api(value = "/", description = "有关书籍的操作")
+@Api(value = "/")
 public class BookController {
     private static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
     @Autowired
@@ -34,18 +34,21 @@ public class BookController {
     private DiscoveryClient discoveryClient;
 
     /**
-     * 本地服务实例的信息
+     * 本地服务实例信息
      *
-     * @return
+     * @return 本地服务实例
      */
     @GetMapping("/instance-info")
     @ApiIgnore
     public ServiceInstance showInfo() {
-        ServiceInstance localServiceInstance = this.discoveryClient.
+        return this.discoveryClient.
                 getLocalServiceInstance();
-        return localServiceInstance;
     }
 
+    /**
+     * @param book 传入的book对象实例
+     * @return 成功或失败信息，json格式封装
+     */
     @PostMapping(value = "/api/books", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "添加某本书籍", httpMethod = "POST",
             notes = "添加成功返回bookId",
@@ -65,6 +68,9 @@ public class BookController {
         return baseResultVo;
     }
 
+    /**
+     * @return 成功或失败信息，json格式封装
+     */
     @GetMapping(value = "/api/books", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "查询所有书籍", httpMethod = "GET",
             notes = "查询所有书籍",
@@ -79,7 +85,7 @@ public class BookController {
     public BaseResultVo getBooks() {
         Books books = bookService.getBooks();
         BaseResultVo baseResultVo = new BaseResultVo();
-        if (books != null && books.getBookList().size() != 0) {
+        if ((books != null) && (!books.getBookList().isEmpty())) {
             baseResultVo.setData(books);
             baseResultVo.setCode(ResultStatusCode.OK.getCode());
             baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
@@ -92,6 +98,10 @@ public class BookController {
         return baseResultVo;
     }
 
+    /**
+     * @param bookId 传入的bookId
+     * @return 成功或失败信息，json格式封装
+     */
     @GetMapping(value = "/api/books/{bookId:[0-9]*}")
     @ApiOperation(value = "查询某本书籍", httpMethod = "GET",
             notes = "根据bookId，查询到某本书籍",
@@ -104,16 +114,16 @@ public class BookController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     public BaseResultVo getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
-        LOGGER.info("请求参数bookId值：" + bookId);
+        LOGGER.info("请求参数bookId值：{}", bookId);
         Book book = bookService.getBook(bookId);
         BaseResultVo baseResultVo = new BaseResultVo();
         if (book != null) {
-            LOGGER.info("查询到书籍ID为" + bookId + "的书籍");
+            LOGGER.info("查询到书籍ID为{}的书籍", bookId);
             baseResultVo.setData(book);
             baseResultVo.setCode(ResultStatusCode.OK.getCode());
             baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
         } else {
-            LOGGER.info("没有查询到书籍ID为" + bookId + "的书籍");
+            LOGGER.info("没有查询到书籍ID为{}的书籍", bookId);
             baseResultVo.setCode(ResultStatusCode.DATA_QUERY_ERROR.getCode());
             baseResultVo.setData("Query book failed id=" + bookId);
             baseResultVo.setMessage(ResultStatusCode.DATA_QUERY_ERROR.getMessage());
@@ -134,7 +144,7 @@ public class BookController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     public BaseResultVo updateBook(@NotNull @ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @Validated @NotNull @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book) {
-        LOGGER.info("请求参数bookId值：" + bookId);
+        LOGGER.info("请求参数bookId值：{}", bookId);
         BaseResultVo baseResultVo = new BaseResultVo();
         if (bookId == null && book == null) {
             baseResultVo.setCode(ResultStatusCode.DATA_INPUT_ERROR.getCode());

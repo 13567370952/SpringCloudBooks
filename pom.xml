@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wujunshen</groupId>
-    <artifactId>spring-cloud-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>spring-cloud-books</artifactId>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
-    <name>spring-cloud-demo</name>
+    <name>spring-cloud-books</name>
     <description>demo</description>
 
     <modules>
@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.1.RELEASE</version>
+        <version>1.5.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <properties>
@@ -36,7 +36,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Camden.RELEASE</version>
+                <version>Camden.SR6</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

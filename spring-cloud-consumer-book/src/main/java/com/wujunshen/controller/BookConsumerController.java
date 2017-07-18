@@ -24,14 +24,14 @@ import java.util.Map;
  * Mail:frank_wjs@hotmail.com <br>
  */
 @RestController
-@Api(value = "/", description = "有关服务消费端操作")
+@Api(value = "/")
 public class BookConsumerController {
     private static final Logger LOGGER = LoggerFactory.getLogger(BookConsumerController.class);
     @Autowired
     private BookConsumerService bookConsumerService;
 
     @GetMapping(value = "/consumer/{bookId:[0-9]*}")
-     @ApiOperation(value = "获取某本书信息", httpMethod = "GET",
+    @ApiOperation(value = "获取某本书信息", httpMethod = "GET",
             notes = "成功返回某本书信息",
             response = BaseResultVo.class
     )
@@ -50,8 +50,8 @@ public class BookConsumerController {
 
         if (baseResultVo.getCode() == 200) {
             Map tokenMap = (HashMap) baseResultVo.getData();
-            LOGGER.info("token_type is: " + tokenMap.get("token_type"));
-            LOGGER.info("access_token is: " + tokenMap.get("access_token"));
+            LOGGER.info("token_type is: {}", tokenMap.get("token_type"));
+            LOGGER.info("access_token is: {}", tokenMap.get("access_token"));
             String authorizationToken = tokenMap.get("token_type") + " " + tokenMap.get("access_token");
             return bookConsumerService.getBook(authorizationToken, bookId);
         } else {
