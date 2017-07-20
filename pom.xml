@@ -13,12 +13,15 @@
 
     <modules>
         <module>spring-cloud-provider-book</module>
+        <module>spring-cloud-provider-book-dubbox</module>
         <module>spring-cloud-service-discovery</module>
         <module>spring-cloud-api-gateway</module>
         <module>spring-cloud-consumer-book</module>
         <module>spring-cloud-monitor-dashboard</module>
         <module>spring-cloud-aggregator</module>
         <module>spring-cloud-config-server</module>
+        <module>spring-cloud-zipkin-server</module>
+        <module>spring-cloud-admin-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
