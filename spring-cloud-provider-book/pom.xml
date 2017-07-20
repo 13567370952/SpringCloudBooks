@@ -4,7 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>spring-cloud-provider-book</artifactId>
-    <packaging>war</packaging>
+    <version>1.0</version>
+    <packaging>jar</packaging>
 
     <parent>
         <groupId>com.wujunshen</groupId>
@@ -29,14 +30,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.cloud</groupId>-->
-        <!--<artifactId>spring-cloud-starter-zuul</artifactId>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -130,10 +123,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--<configuration>-->
-                <!--&lt;!&ndash;fork:  如果没有该项配置，devtools不会起作用，即应用不会restart &ndash;&gt;-->
-                <!--<fork>true</fork>-->
-                <!--</configuration>-->
+                <configuration>
+                    <fork>true</fork>
+                    <jvmArguments>-Xss8m</jvmArguments>
+                    <jvmArguments>-Xmx64m</jvmArguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>
