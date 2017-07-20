@@ -36,7 +36,7 @@ svn://xxx.xxx.xxx.xxx/project_name/docs
 访问http://localhost:8005/swagger-ui.html ，如下图：
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1123/101922_61f72a16_43183.jpeg "在这里输入图片标题")
 
-可查看相关接口，目前这里只是利用java web token做了一个安全验证功能，还有就是路由功能
+可查看相关接口，目前这里只是利用json web token做了一个鉴定请求是否有权调用服务端的安全验证功能，还有就是路由功能
 
 ### **客户端**
 
