@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:application name="${dubbo.application.name}" owner="${dubbo.application.owner}" organization="dubbox"/>
+    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" check="true" timeout="100000"/>
+    <dubbo:annotation package="com.wujunshen.service"/>
+    <dubbo:protocol name="dubbo" port="20082" serialization="kryo"
+                    optimizer="com.wujunshen.SerializationOptimizerImpl"/>
+    <dubbo:protocol name="rest" port="${dubbo.protocol.port}" contextpath="/" server="servlet"/>
+
+    <dubbo:service interface="com.wujunshen.service.facade.BookRest4DubboService" ref="bookRest4DubboService"
+                   protocol="rest" timeout="2000" connections="100" validation="true"/>
+</beans>
