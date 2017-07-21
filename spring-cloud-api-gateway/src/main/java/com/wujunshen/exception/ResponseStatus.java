@@ -7,13 +7,10 @@ package com.wujunshen.exception;
  * Time:13:48 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
-public enum ResultStatusCode {
+public enum ResponseStatus {
     OK(200, "成功"),
-    PARAMETER_ERROR(108, "参数错误"),
-    DATA_QUERY_ERROR(99, "查询数据失败"),
-    DATA_UPDATED_ERROR(100, "更新数据失败"),
-    DATA_DELETED_ERROR(101, "删除数据失败"),
-    DATA_INPUT_ERROR(102, "数据未输入"),
+    PARAM_ERROR(100, "参数验证失败-{0}"),
+    PARAMETER_ERROR(101, "参数错误"),
     INVALID_CLIENT_ID(300, "clientID无效"),
     INVALID_USER_NAME(301, "用户名错误"),
     INVALID_PASSWORD(302, "密码错误"),
@@ -30,7 +27,7 @@ public enum ResultStatusCode {
      * @param code    错误码
      * @param message 错误消息
      */
-    ResultStatusCode(int code, String message) {
+    ResponseStatus(int code, String message) {
         this.code = code;
         this.message = message;
     }

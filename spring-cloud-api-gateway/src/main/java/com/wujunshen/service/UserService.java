@@ -29,9 +29,9 @@ public class UserService {
     public User findUserInfoByName(String userName) {
         UserCriteria userCriteria = new UserCriteria();
         UserCriteria.Criteria criteria = userCriteria.createCriteria();
-        criteria.andNameEqualTo(userName);
+        criteria.andUserNameEqualTo(userName);
         List<User> users = userMapper.selectByExample(userCriteria);
 
-        return users != null ? users.size() != 0 ? users.get(0) != null ? users.get(0) : null : null : null;
+        return (users != null) ? !users.isEmpty() ? users.get(0) : null : null;
     }
 }

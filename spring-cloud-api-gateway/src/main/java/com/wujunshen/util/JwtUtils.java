@@ -21,8 +21,11 @@ import java.util.Date;
  * Time:16:44 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
-public class JwtUtil {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
+public class JwtUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
+
+    private JwtUtils() {
+    }
 
     public static Claims parseJWT(String jsonWebToken, String base64Security) {
         try {
@@ -36,7 +39,7 @@ public class JwtUtil {
     }
 
     public static String createJWT(LoginParameter loginParameter, User user, Audience audience) {
-        long ttlmillis = audience.getExpiresSecond() * 1000;
+        long ttlmillis = 1000 * audience.getExpiresSecond();
         String base64Security = audience.getBase64Secret();
         Date now = new Date(System.currentTimeMillis());
 
@@ -48,7 +51,7 @@ public class JwtUtil {
         JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
                 .claim("role", user.getRole())
                 .claim("unique_name", loginParameter.getUserName())
-                .claim("userid", user.getName())
+                .claim("userid", user.getUserName())
                 .setIssuer(audience.getName())
                 .setAudience(audience.getClientId())
                 .signWith(SignatureAlgorithm.HS256, signingKey);

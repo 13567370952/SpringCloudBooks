@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Time:15:50 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
-@ConfigurationProperties(prefix = "audience", locations = "classpath:jwt.properties")
+@ConfigurationProperties(prefix = "audience")
 public class Audience {
     private String clientId;
     private String base64Secret;

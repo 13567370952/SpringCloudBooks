@@ -8,7 +8,10 @@ import java.security.MessageDigest;
  * Time:16:57 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
-public class MD5Util {
+public class MD5Utils {
+    private MD5Utils() {
+    }
+
     public static String getMD5(String inStr) {
         MessageDigest md5;
         try {

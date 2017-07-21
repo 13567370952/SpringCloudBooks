@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -25,7 +26,7 @@ public class SwaggerConfig {
                 .groupName("gateway")
                 .apiInfo(apiInfo())
                 .select()
-                .paths(regex("/api/.*"))
+                .paths(regex("/oauth/.*"))
                 .build();
     }
 
@@ -33,7 +34,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("系统API接口管理")
                 .description("各个微服务")
-                .contact("吴峻申")
+                .contact(new Contact("吴峻申", "", "frank_wjs@hotmail.com"))
                 .license("Apache License Version 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .version("1.0")

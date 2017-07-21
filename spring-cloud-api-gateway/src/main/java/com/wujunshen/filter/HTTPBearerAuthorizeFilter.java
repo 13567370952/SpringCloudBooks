@@ -3,10 +3,11 @@ package com.wujunshen.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import com.wujunshen.exception.ResultStatusCode;
+import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.security.Audience;
-import com.wujunshen.util.JwtUtil;
-import com.wujunshen.vo.BaseResultVo;
+import com.wujunshen.util.Constants;
+import com.wujunshen.util.JwtUtils;
+import com.wujunshen.vo.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,18 +75,17 @@ public class HTTPBearerAuthorizeFilter extends ZuulFilter {
 
         try {
             if (!isExistedAuthorization(request)) {//无Authorization时返回处理逻辑
-                responseHandler(ctx, ResultStatusCode.NO_AUTHORIZATION);
+                responseHandler(ctx, ResponseStatus.NO_AUTHORIZATION);
                 return null;
             }
             if (!isValidJwt(request)) {//JWT无效时返回处理逻辑
-                responseHandler(ctx, ResultStatusCode.INVALID_TOKEN);
+                responseHandler(ctx, ResponseStatus.INVALID_TOKEN);
                 return null;
             }
         } catch (IOException | ServletException e) {
-            LOGGER.error("exception message is:", e.getMessage());
-            e.printStackTrace();
+            LOGGER.error("exception message is:{}", e.getMessage());
         }
-        LOGGER.info("request URI is:" + request.getRequestURI());
+        LOGGER.info("request URI is:{}", request.getRequestURI());
         return null;
     }
 
@@ -93,11 +93,11 @@ public class HTTPBearerAuthorizeFilter extends ZuulFilter {
      * 返回逻辑统一处理
      *
      * @param ctx
-     * @param resultStatusCode
+     * @param responseStatus
      * @throws IOException
      */
-    private void responseHandler(RequestContext ctx, ResultStatusCode resultStatusCode) throws IOException {
-        BaseResultVo baseResultVo = new BaseResultVo();
+    private void responseHandler(RequestContext ctx, ResponseStatus responseStatus) throws IOException {
+        BaseResponse baseResponse = new BaseResponse();
         ObjectMapper mapper = new ObjectMapper();
         ctx.setSendZuulResponse(true);//zuul过滤请求，false为不路由，true为路由
         HttpServletResponse httpResponse = ctx.getResponse();
@@ -105,9 +105,9 @@ public class HTTPBearerAuthorizeFilter extends ZuulFilter {
         httpResponse.setContentType("application/json; charset=utf-8");
         httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        baseResultVo.setCode(resultStatusCode.getCode());
-        baseResultVo.setMessage(resultStatusCode.getMessage());
-        httpResponse.getWriter().write(mapper.writeValueAsString(baseResultVo));
+        baseResponse.setCode(responseStatus.getCode());
+        baseResponse.setMessage(responseStatus.getMessage());
+        httpResponse.getWriter().write(mapper.writeValueAsString(baseResponse));
         ctx.setResponse(httpResponse);//返回response信息
     }
 
@@ -120,13 +120,13 @@ public class HTTPBearerAuthorizeFilter extends ZuulFilter {
      * @throws ServletException
      */
     private boolean isValidJwt(HttpServletRequest request) throws IOException, ServletException {
-        LOGGER.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
+        LOGGER.info("{} request to {}", request.getMethod(), request.getRequestURL());
         String auth = request.getHeader("Authorization");
-        LOGGER.info("auth is :" + auth);
-        String HeadStr = auth.substring(0, 6).toLowerCase();
-        if (HeadStr.compareTo("bearer") == 0) {
+        LOGGER.info("auth is :{}", auth);
+        String headString = auth.substring(0, 6).toLowerCase();
+        if (headString.compareTo(Constants.BEARER) == 0) {
             auth = auth.substring(7, auth.length());
-            if (JwtUtil.parseJWT(auth, audience.getBase64Secret()) != null) {
+            if (JwtUtils.parseJWT(auth, audience.getBase64Secret()) != null) {
                 return true;
             }
         }
@@ -138,13 +138,11 @@ public class HTTPBearerAuthorizeFilter extends ZuulFilter {
      *
      * @param request
      * @return
-     * @throws IOException
-     * @throws ServletException
      */
-    private boolean isExistedAuthorization(HttpServletRequest request) throws IOException, ServletException {
-        LOGGER.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
+    private boolean isExistedAuthorization(HttpServletRequest request) {
+        LOGGER.info("{} request to {}", request.getMethod(), request.getRequestURL());
         String auth = request.getHeader("Authorization");
-        LOGGER.info("auth is :" + auth);
+        LOGGER.info("auth is :{}", auth);
         return !(auth == null || auth.length() <= 7);
     }
 }

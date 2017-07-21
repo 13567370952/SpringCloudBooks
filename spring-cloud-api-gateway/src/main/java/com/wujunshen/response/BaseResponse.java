@@ -11,15 +11,15 @@ import java.io.Serializable;
  * Time:11:12
  * Mail:frank_wjs@hotmail.com
  */
-public class BaseResultVo implements Serializable {
+public class BaseResponse implements Serializable {
     private static final long serialVersionUID = -7978635757653362784L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(BaseResultVo.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseResponse.class);
     private int code;
     private String message;
     // 返回数据
     private Object data;
 
-    public BaseResultVo() {
+    public BaseResponse() {
     }
 
     public int getCode() {
@@ -48,7 +48,7 @@ public class BaseResultVo implements Serializable {
 
     @Override
     public String toString() {
-        return "BaseResultVo{" +
+        return "BaseResponse{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
                 ", data=" + data +
