@@ -9,11 +9,12 @@ package com.wujunshen.exception;
  */
 public enum ResultStatusCode {
     OK(200, "成功"),
+    DATA_CREATE_ERROR(100, "新增数据失败"),
+    DATA_REQUERY_ERROR(101, "查询数据失败"),
+    DATA_UPDATED_ERROR(102, "更新数据失败"),
+    DATA_DELETED_ERROR(103, "删除数据失败"),
+    DATA_INPUT_ERROR(104, "数据未输入"),
     PARAMETER_ERROR(108, "参数错误"),
-    DATA_QUERY_ERROR(99, "查询数据失败"),
-    DATA_UPDATED_ERROR(100, "更新数据失败"),
-    DATA_DELETED_ERROR(101, "删除数据失败"),
-    DATA_INPUT_ERROR(102, "数据未输入"),
     INVALID_CLIENT_ID(300, "clientID无效"),
     INVALID_USER_NAME(301, "用户名错误"),
     INVALID_PASSWORD(302, "密码错误"),

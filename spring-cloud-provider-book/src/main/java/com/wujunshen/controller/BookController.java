@@ -62,9 +62,15 @@ public class BookController {
             @ApiResponse(code = 500, message = "Failure")})
     public BaseResultVo saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book) {
         BaseResultVo baseResultVo = new BaseResultVo();
-        baseResultVo.setData(bookService.saveBook(book));
-        baseResultVo.setCode(ResultStatusCode.OK.getCode());
-        baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
+
+        if (bookService.saveBook(book) != 1) {
+            baseResultVo.setCode(ResultStatusCode.DATA_CREATE_ERROR.getCode());
+            baseResultVo.setMessage(ResultStatusCode.DATA_CREATE_ERROR.getMessage());
+        } else {
+            baseResultVo.setCode(ResultStatusCode.OK.getCode());
+            baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
+        }
+
         return baseResultVo;
     }
 
@@ -90,9 +96,9 @@ public class BookController {
             baseResultVo.setCode(ResultStatusCode.OK.getCode());
             baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
         } else {
-            baseResultVo.setCode(ResultStatusCode.DATA_QUERY_ERROR.getCode());
+            baseResultVo.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
             baseResultVo.setData("Query books failed");
-            baseResultVo.setMessage(ResultStatusCode.DATA_QUERY_ERROR.getMessage());
+            baseResultVo.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
         }
 
         return baseResultVo;
@@ -124,9 +130,9 @@ public class BookController {
             baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
         } else {
             LOGGER.info("没有查询到书籍ID为{}的书籍", bookId);
-            baseResultVo.setCode(ResultStatusCode.DATA_QUERY_ERROR.getCode());
+            baseResultVo.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
             baseResultVo.setData("Query book failed id=" + bookId);
-            baseResultVo.setMessage(ResultStatusCode.DATA_QUERY_ERROR.getMessage());
+            baseResultVo.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
         }
 
         return baseResultVo;
@@ -153,21 +159,20 @@ public class BookController {
         }
 
         if (bookService.getBook(bookId) == null) {
-            baseResultVo.setCode(ResultStatusCode.DATA_QUERY_ERROR.getCode());
-            baseResultVo.setData("book id=" + bookId + " not existed");
-            baseResultVo.setMessage(ResultStatusCode.DATA_QUERY_ERROR.getMessage());
+            baseResultVo.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
+            baseResultVo.setData("book id={}" + bookId + " not existed");
+            baseResultVo.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
             return baseResultVo;
         }
 
-        Book updatedBook = bookService.updateBook(book);
-        if (updatedBook != null) {
-            baseResultVo.setData(updatedBook);
+        if (bookService.updateBook(bookId, book) != 1) {
+            baseResultVo.setData("Update book failed id=" + book.getBookId());
+            baseResultVo.setCode(ResultStatusCode.DATA_UPDATED_ERROR.getCode());
+            baseResultVo.setMessage(ResultStatusCode.DATA_UPDATED_ERROR.getMessage());
+        } else {
+            baseResultVo.setData("Update book id=" + bookId);
             baseResultVo.setCode(ResultStatusCode.OK.getCode());
             baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
-        } else {
-            baseResultVo.setCode(ResultStatusCode.DATA_UPDATED_ERROR.getCode());
-            baseResultVo.setData("Update book failed id=" + book.getBookId());
-            baseResultVo.setMessage(ResultStatusCode.DATA_UPDATED_ERROR.getMessage());
         }
 
         return baseResultVo;
@@ -186,14 +191,14 @@ public class BookController {
             @ApiResponse(code = 500, message = "Failure")})
     public BaseResultVo deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
         BaseResultVo baseResultVo = new BaseResultVo();
-        if (bookService.deleteBook(bookId) == 1) {
+        if (bookService.deleteBook(bookId) != 1) {
+            baseResultVo.setData("Deleted book failed id=" + bookId);
+            baseResultVo.setCode(ResultStatusCode.DATA_DELETED_ERROR.getCode());
+            baseResultVo.setMessage(ResultStatusCode.DATA_DELETED_ERROR.getMessage());
+        } else {
             baseResultVo.setData("Deleted book id=" + bookId);
             baseResultVo.setCode(ResultStatusCode.OK.getCode());
             baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
-        } else {
-            baseResultVo.setCode(ResultStatusCode.DATA_DELETED_ERROR.getCode());
-            baseResultVo.setData("Deleted book failed id=" + bookId);
-            baseResultVo.setMessage(ResultStatusCode.DATA_DELETED_ERROR.getMessage());
         }
         return baseResultVo;
     }

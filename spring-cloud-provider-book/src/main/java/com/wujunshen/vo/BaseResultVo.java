@@ -41,7 +41,6 @@ public class BaseResultVo implements Serializable {
         this.message = message;
     }
 
-    //@JsonProperty(required = true)
     @ApiModelProperty(notes = "返回数据")
     public Object getData() {
         return data;

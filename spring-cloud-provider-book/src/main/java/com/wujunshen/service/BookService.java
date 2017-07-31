@@ -28,9 +28,8 @@ public class BookService {
         this.bookMapper = bookMapper;
     }
 
-    public int saveBook(final com.wujunshen.entity.Book book) {
-        bookMapper.insert(book);
-        return book.getBookId();
+    public int saveBook(final Book book) {
+        return bookMapper.insert(book);
     }
 
     public Books getBooks() {
@@ -39,15 +38,14 @@ public class BookService {
         return new Books(bookMapper.selectByExample(bookCriteria));
     }
 
-    public Book updateBook(Book book) {
+    public int updateBook(Integer bookId, Book book) {
         BookCriteria bookCriteria = new BookCriteria();
         BookCriteria.Criteria criteria = bookCriteria.createCriteria();
-        criteria.andBookIdEqualTo(book.getBookId());
-        bookMapper.updateByExample(book, bookCriteria);
-        return book;
+        criteria.andBookIdEqualTo(bookId);
+       return bookMapper.updateByExample(book, bookCriteria);
     }
 
-    public int deleteBook(int bookId) {
+    public int deleteBook(Integer bookId) {
         return bookMapper.deleteByPrimaryKey(bookId);
     }
 
