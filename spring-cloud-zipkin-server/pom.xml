@@ -5,7 +5,7 @@
 
     <artifactId>spring-cloud-zipkin-server</artifactId>
     <version>1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>spring-cloud-zipkin-server</name>
     <description>Demo-using zipkin</description>
@@ -23,19 +23,6 @@
     </properties>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>com.baidu.disconf</groupId>-->
-            <!--<artifactId>disconf-client</artifactId>-->
-            <!--<version>2.6.36</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -61,7 +48,7 @@
         <dependency>
             <groupId>io.zipkin.java</groupId>
             <artifactId>zipkin-autoconfigure-storage-elasticsearch-http</artifactId>
-            <version>1.16.2</version>
+            <version>1.21.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,6 +61,11 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>hal-browser</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
         </dependency>
     </dependencies>
     <build>
