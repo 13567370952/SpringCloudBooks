@@ -3,9 +3,8 @@ package com.wujunshen.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wujunshen.ProviderBookApplication;
 import com.wujunshen.entity.Book;
-import com.wujunshen.entity.Books;
 import com.wujunshen.exception.ResultStatusCode;
-import com.wujunshen.vo.BaseResultVo;
+import com.wujunshen.vo.response.BaseResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +18,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -54,7 +54,7 @@ public class BookControllerTest {
                 "  \"publisher\": \"吴峻申\"\n" +
                 "}";
 
-        BaseResultVo actual = template.postForObject("/api/books", OBJECT_MAPPER.readValue(requestBody, Book.class), BaseResultVo.class);
+        BaseResponse actual = template.postForObject("/api/books", OBJECT_MAPPER.readValue(requestBody, Book.class), BaseResponse.class);
 
         assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
         assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
@@ -62,22 +62,23 @@ public class BookControllerTest {
 
     @Test
     public void getBooks() throws Exception {
-        String expected = "{\n" +
-                "    \"bookList\": [\n" +
-                "      {\n" +
-                "        \"bookId\": 1,\n" +
-                "        \"bookName\": \"《JAVA WEB整合开发实例精通:Struts+Hibernate+Spring》\",\n" +
-                "        \"publisher\": \"吴峻申\"\n" +
-                "      }\n" +
-                "    ]\n" +
-                "  }";
+        String expected = "[{\n" +
+                "      \"bookId\": 1,\n" +
+                "      \"bookName\": \"《JAVA WEB整合开发实例精通:Struts+Hibernate+Spring》\",\n" +
+                "      \"publisher\": \"吴峻申\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"bookId\": 14,\n" +
+                "      \"bookName\": \"《大数据分析：数据驱动的企业绩效优化、过程管理和运营决策》\",\n" +
+                "      \"publisher\": \"吴峻申\"\n" +
+                "    }]";
 
-        BaseResultVo actual = template.getForObject("/api/books", BaseResultVo.class, new HashMap<>());
+        BaseResponse actual = template.getForObject("/api/books", BaseResponse.class, new HashMap<>());
 
         assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
         assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
         assertThat(OBJECT_MAPPER.writeValueAsString(actual.getData()),
-                equalTo(OBJECT_MAPPER.writeValueAsString(OBJECT_MAPPER.readValue(expected, Books.class))));
+                equalTo(OBJECT_MAPPER.writeValueAsString(OBJECT_MAPPER.readValue(expected, List.class))));
     }
 
     @Test
@@ -91,7 +92,7 @@ public class BookControllerTest {
         Map<String, String> multiValueMap = new HashMap<>();
         multiValueMap.put("bookId", "1");//传值，但要在url上配置相应的参数
 
-        BaseResultVo actual = template.getForObject("/api/books/{bookId}", BaseResultVo.class, multiValueMap);
+        BaseResponse actual = template.getForObject("/api/books/{bookId}", BaseResponse.class, multiValueMap);
 
         assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
         assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
@@ -112,10 +113,10 @@ public class BookControllerTest {
         multiValueMap.put("book", editedBook);
         HttpEntity<Map<String, Object>> formEntity = new HttpEntity<>(multiValueMap, null);
 
-        Object[] uriVariables = {11};
+        Object[] uriVariables = {1};
 
         String expected = "Update book id=" + uriVariables[0];
-        BaseResultVo actual = template.exchange("/api/books/{bookId}", HttpMethod.PUT, formEntity, BaseResultVo.class, uriVariables).getBody();
+        BaseResponse actual = template.exchange("/api/books/{bookId}", HttpMethod.PUT, formEntity, BaseResponse.class, uriVariables).getBody();
 
         assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
         assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
@@ -124,8 +125,8 @@ public class BookControllerTest {
 
     @Test
     public void deleteBook() throws Exception {
-        Object[] uriVariables = {11};
-        BaseResultVo actual = template.exchange("/api/books/{bookId}", HttpMethod.DELETE, null, BaseResultVo.class, uriVariables).getBody();
+        Object[] uriVariables = {14};
+        BaseResponse actual = template.exchange("/api/books/{bookId}", HttpMethod.DELETE, null, BaseResponse.class, uriVariables).getBody();
 
         String expected = "Deleted book id=" + uriVariables[0];
 

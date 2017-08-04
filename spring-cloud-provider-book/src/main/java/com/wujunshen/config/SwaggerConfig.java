@@ -25,10 +25,6 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("books")
                 .apiInfo(apiInfo())
-                //.genericModelSubstitutes(DeferredResult.class)
-                //.useDefaultResponseMessages(false)
-                //.forCodeGeneration(true)
-                //.pathMapping("/")// base，最终调用接口后会和paths拼接在一
                 .select()
                 .paths(regex("/api/.*"))
                 .build();

@@ -4,12 +4,13 @@ package com.wujunshen.service;
 import com.wujunshen.dao.BookMapper;
 import com.wujunshen.entity.Book;
 import com.wujunshen.entity.BookCriteria;
-import com.wujunshen.entity.Books;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,25 +25,20 @@ public class BookService {
     @Resource
     private BookMapper bookMapper;
 
-    public void setBookMapper(BookMapper bookMapper) {
-        this.bookMapper = bookMapper;
-    }
-
     public int saveBook(final Book book) {
         return bookMapper.insert(book);
     }
 
-    public Books getBooks() {
-        BookCriteria bookCriteria = new BookCriteria();
-
-        return new Books(bookMapper.selectByExample(bookCriteria));
+    public List<Book> getBooks() {
+        return new ArrayList<>(bookMapper.selectByExample(new BookCriteria()));
     }
 
     public int updateBook(Integer bookId, Book book) {
+        book.setBookId(bookId);
         BookCriteria bookCriteria = new BookCriteria();
         BookCriteria.Criteria criteria = bookCriteria.createCriteria();
         criteria.andBookIdEqualTo(bookId);
-       return bookMapper.updateByExample(book, bookCriteria);
+        return bookMapper.updateByExample(book, bookCriteria);
     }
 
     public int deleteBook(Integer bookId) {

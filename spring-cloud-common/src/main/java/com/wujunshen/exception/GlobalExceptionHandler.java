@@ -1,6 +1,6 @@
 package com.wujunshen.exception;
 
-import com.wujunshen.vo.BaseResultVo;
+import com.wujunshen.vo.response.BaseResponse;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,10 +33,10 @@ public class GlobalExceptionHandler {//添加全局异常处理流程，根据�
             invalidArguments.add(invalidArgument);
         }
 
-        BaseResultVo baseResultVo = new BaseResultVo();
-        baseResultVo.setCode(ResultStatusCode.PARAMETER_ERROR.getCode());
-        baseResultVo.setMessage(ResultStatusCode.PARAMETER_ERROR.getMessage());
-        baseResultVo.setData(invalidArguments);
-        return baseResultVo;
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setCode(ResultStatusCode.PARAMETER_ERROR.getCode());
+        baseResponse.setMessage(ResultStatusCode.PARAMETER_ERROR.getMessage());
+        baseResponse.setData(invalidArguments);
+        return baseResponse;
     }
 }

@@ -1,14 +1,12 @@
 package com.wujunshen.controller;
 
 import com.wujunshen.entity.Book;
-import com.wujunshen.entity.Books;
 import com.wujunshen.exception.ResultStatusCode;
 import com.wujunshen.service.BookService;
-import com.wujunshen.vo.BaseResultVo;
+import com.wujunshen.vo.response.BaseResponse;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.MediaType;
@@ -16,7 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * User:frankwoo(吴峻申) <br>
@@ -28,9 +28,9 @@ import javax.validation.constraints.NotNull;
 @Api(value = "/")
 public class BookController {
     private static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
-    @Autowired
+    @Resource
     private BookService bookService;
-    @Autowired
+    @Resource
     private DiscoveryClient discoveryClient;
 
     /**
@@ -40,9 +40,8 @@ public class BookController {
      */
     @GetMapping("/instance-info")
     @ApiIgnore
-    public ServiceInstance showInfo() {
-        return this.discoveryClient.
-                getLocalServiceInstance();
+    public List<ServiceInstance> showInfo() {
+        return this.discoveryClient.getInstances("microservice-books");
     }
 
     /**
@@ -52,26 +51,26 @@ public class BookController {
     @PostMapping(value = "/api/books", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "添加某本书籍", httpMethod = "POST",
             notes = "添加成功返回bookId",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success", response = BaseResultVo.class),
+            @ApiResponse(code = 200, message = "Success", response = BaseResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResultVo saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book) {
-        BaseResultVo baseResultVo = new BaseResultVo();
+    public BaseResponse saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book) {
+        BaseResponse baseResponse = new BaseResponse();
 
         if (bookService.saveBook(book) != 1) {
-            baseResultVo.setCode(ResultStatusCode.DATA_CREATE_ERROR.getCode());
-            baseResultVo.setMessage(ResultStatusCode.DATA_CREATE_ERROR.getMessage());
+            baseResponse.setCode(ResultStatusCode.DATA_CREATE_ERROR.getCode());
+            baseResponse.setMessage(ResultStatusCode.DATA_CREATE_ERROR.getMessage());
         } else {
-            baseResultVo.setCode(ResultStatusCode.OK.getCode());
-            baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setCode(ResultStatusCode.OK.getCode());
+            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
         }
 
-        return baseResultVo;
+        return baseResponse;
     }
 
     /**
@@ -80,28 +79,28 @@ public class BookController {
     @GetMapping(value = "/api/books", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "查询所有书籍", httpMethod = "GET",
             notes = "查询所有书籍",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success", response = BaseResultVo.class),
+            @ApiResponse(code = 200, message = "Success", response = BaseResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResultVo getBooks() {
-        Books books = bookService.getBooks();
-        BaseResultVo baseResultVo = new BaseResultVo();
-        if ((books != null) && (!books.getBookList().isEmpty())) {
-            baseResultVo.setData(books);
-            baseResultVo.setCode(ResultStatusCode.OK.getCode());
-            baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
+    public BaseResponse getBooks() {
+        List<Book> books = bookService.getBooks();
+        BaseResponse baseResponse = new BaseResponse();
+        if ((books != null) && (!books.isEmpty())) {
+            baseResponse.setData(books);
+            baseResponse.setCode(ResultStatusCode.OK.getCode());
+            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
         } else {
-            baseResultVo.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
-            baseResultVo.setData("Query books failed");
-            baseResultVo.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
+            baseResponse.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
+            baseResponse.setData("Query books failed");
+            baseResponse.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
         }
 
-        return baseResultVo;
+        return baseResponse;
     }
 
     /**
@@ -111,95 +110,95 @@ public class BookController {
     @GetMapping(value = "/api/books/{bookId:[0-9]*}")
     @ApiOperation(value = "查询某本书籍", httpMethod = "GET",
             notes = "根据bookId，查询到某本书籍",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success", response = BaseResultVo.class),
+            @ApiResponse(code = 200, message = "Success", response = BaseResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResultVo getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
+    public BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
         LOGGER.info("请求参数bookId值：{}", bookId);
         Book book = bookService.getBook(bookId);
-        BaseResultVo baseResultVo = new BaseResultVo();
+        BaseResponse baseResponse = new BaseResponse();
         if (book != null) {
             LOGGER.info("查询到书籍ID为{}的书籍", bookId);
-            baseResultVo.setData(book);
-            baseResultVo.setCode(ResultStatusCode.OK.getCode());
-            baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setData(book);
+            baseResponse.setCode(ResultStatusCode.OK.getCode());
+            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
         } else {
             LOGGER.info("没有查询到书籍ID为{}的书籍", bookId);
-            baseResultVo.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
-            baseResultVo.setData("Query book failed id=" + bookId);
-            baseResultVo.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
+            baseResponse.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
+            baseResponse.setData("Query book failed id=" + bookId);
+            baseResponse.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
         }
 
-        return baseResultVo;
+        return baseResponse;
     }
 
     @PutMapping(value = "/api/books/{bookId:[0-9]*}")
     @ApiOperation(value = "更新某本书籍", httpMethod = "PUT",
             notes = "更新的某本书籍信息",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success", response = BaseResultVo.class),
+            @ApiResponse(code = 200, message = "Success", response = BaseResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResultVo updateBook(@NotNull @ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @Validated @NotNull @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book) {
+    public BaseResponse updateBook(@NotNull @ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @Validated @NotNull @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book) {
         LOGGER.info("请求参数bookId值：{}", bookId);
-        BaseResultVo baseResultVo = new BaseResultVo();
+        BaseResponse baseResponse = new BaseResponse();
         if (bookId == null && book == null) {
-            baseResultVo.setCode(ResultStatusCode.DATA_INPUT_ERROR.getCode());
-            baseResultVo.setMessage(ResultStatusCode.DATA_INPUT_ERROR.getMessage());
-            return baseResultVo;
+            baseResponse.setCode(ResultStatusCode.DATA_INPUT_ERROR.getCode());
+            baseResponse.setMessage(ResultStatusCode.DATA_INPUT_ERROR.getMessage());
+            return baseResponse;
         }
 
         if (bookService.getBook(bookId) == null) {
-            baseResultVo.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
-            baseResultVo.setData("book id={}" + bookId + " not existed");
-            baseResultVo.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
-            return baseResultVo;
+            baseResponse.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
+            baseResponse.setData("book id={}" + bookId + " not existed");
+            baseResponse.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
+            return baseResponse;
         }
 
         if (bookService.updateBook(bookId, book) != 1) {
-            baseResultVo.setData("Update book failed id=" + book.getBookId());
-            baseResultVo.setCode(ResultStatusCode.DATA_UPDATED_ERROR.getCode());
-            baseResultVo.setMessage(ResultStatusCode.DATA_UPDATED_ERROR.getMessage());
+            baseResponse.setData("Update book failed id=" + book.getBookId());
+            baseResponse.setCode(ResultStatusCode.DATA_UPDATED_ERROR.getCode());
+            baseResponse.setMessage(ResultStatusCode.DATA_UPDATED_ERROR.getMessage());
         } else {
-            baseResultVo.setData("Update book id=" + bookId);
-            baseResultVo.setCode(ResultStatusCode.OK.getCode());
-            baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setData("Update book id=" + bookId);
+            baseResponse.setCode(ResultStatusCode.OK.getCode());
+            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
         }
 
-        return baseResultVo;
+        return baseResponse;
     }
 
     @DeleteMapping(value = "/api/books/{bookId:[0-9]*}")
     @ApiOperation(value = "删除某本书籍信息", httpMethod = "DELETE",
             notes = "删除某本书籍信息",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success", response = BaseResultVo.class),
+            @ApiResponse(code = 200, message = "Success", response = BaseResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResultVo deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
-        BaseResultVo baseResultVo = new BaseResultVo();
+    public BaseResponse deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
+        BaseResponse baseResponse = new BaseResponse();
         if (bookService.deleteBook(bookId) != 1) {
-            baseResultVo.setData("Deleted book failed id=" + bookId);
-            baseResultVo.setCode(ResultStatusCode.DATA_DELETED_ERROR.getCode());
-            baseResultVo.setMessage(ResultStatusCode.DATA_DELETED_ERROR.getMessage());
+            baseResponse.setData("Deleted book failed id=" + bookId);
+            baseResponse.setCode(ResultStatusCode.DATA_DELETED_ERROR.getCode());
+            baseResponse.setMessage(ResultStatusCode.DATA_DELETED_ERROR.getMessage());
         } else {
-            baseResultVo.setData("Deleted book id=" + bookId);
-            baseResultVo.setCode(ResultStatusCode.OK.getCode());
-            baseResultVo.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setData("Deleted book id=" + bookId);
+            baseResponse.setCode(ResultStatusCode.OK.getCode());
+            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
         }
-        return baseResultVo;
+        return baseResponse;
     }
 }
