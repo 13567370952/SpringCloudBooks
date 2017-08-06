@@ -3,7 +3,7 @@ package com.wujunshen.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wujunshen.ProviderBookApplication;
 import com.wujunshen.entity.Book;
-import com.wujunshen.exception.ResultStatusCode;
+import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.vo.response.BaseResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -56,8 +56,8 @@ public class BookControllerTest {
 
         BaseResponse actual = template.postForObject("/api/books", OBJECT_MAPPER.readValue(requestBody, Book.class), BaseResponse.class);
 
-        assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
-        assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
+        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
     }
 
     @Test
@@ -75,8 +75,8 @@ public class BookControllerTest {
 
         BaseResponse actual = template.getForObject("/api/books", BaseResponse.class, new HashMap<>());
 
-        assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
-        assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
+        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
         assertThat(OBJECT_MAPPER.writeValueAsString(actual.getData()),
                 equalTo(OBJECT_MAPPER.writeValueAsString(OBJECT_MAPPER.readValue(expected, List.class))));
     }
@@ -94,8 +94,8 @@ public class BookControllerTest {
 
         BaseResponse actual = template.getForObject("/api/books/{bookId}", BaseResponse.class, multiValueMap);
 
-        assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
-        assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
+        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
         assertThat(OBJECT_MAPPER.writeValueAsString(actual.getData()),
                 equalTo(OBJECT_MAPPER.writeValueAsString(OBJECT_MAPPER.readValue(expected, Book.class))));
     }
@@ -109,29 +109,29 @@ public class BookControllerTest {
 
         Book editedBook = OBJECT_MAPPER.readValue(editString, Book.class);
 
-        Map<String, Object> multiValueMap = new HashMap<>();
-        multiValueMap.put("book", editedBook);
-        HttpEntity<Map<String, Object>> formEntity = new HttpEntity<>(multiValueMap, null);
+        //Map<String, Object> multiValueMap = new HashMap<>();
+        //multiValueMap.put("book", editedBook);
+        HttpEntity<Book> formEntity = new HttpEntity<>(editedBook);
 
-        Object[] uriVariables = {1};
+        Object[] uriVariables = {15};
 
         String expected = "Update book id=" + uriVariables[0];
         BaseResponse actual = template.exchange("/api/books/{bookId}", HttpMethod.PUT, formEntity, BaseResponse.class, uriVariables).getBody();
 
-        assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
-        assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
+        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
         assertThat(actual.getData(), equalTo(expected));
     }
 
     @Test
     public void deleteBook() throws Exception {
-        Object[] uriVariables = {14};
+        Object[] uriVariables = {15};
         BaseResponse actual = template.exchange("/api/books/{bookId}", HttpMethod.DELETE, null, BaseResponse.class, uriVariables).getBody();
 
         String expected = "Deleted book id=" + uriVariables[0];
 
-        assertThat(actual.getCode(), equalTo(ResultStatusCode.OK.getCode()));
-        assertThat(actual.getMessage(), equalTo(ResultStatusCode.OK.getMessage()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
+        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
         assertThat(actual.getData(), equalTo(expected));
     }
 }

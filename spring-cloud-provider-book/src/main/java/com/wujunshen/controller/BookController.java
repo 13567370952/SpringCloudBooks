@@ -1,7 +1,7 @@
 package com.wujunshen.controller;
 
 import com.wujunshen.entity.Book;
-import com.wujunshen.exception.ResultStatusCode;
+import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.service.BookService;
 import com.wujunshen.vo.response.BaseResponse;
 import io.swagger.annotations.*;
@@ -63,11 +63,11 @@ public class BookController {
         BaseResponse baseResponse = new BaseResponse();
 
         if (bookService.saveBook(book) != 1) {
-            baseResponse.setCode(ResultStatusCode.DATA_CREATE_ERROR.getCode());
-            baseResponse.setMessage(ResultStatusCode.DATA_CREATE_ERROR.getMessage());
+            baseResponse.setCode(ResponseStatus.DATA_CREATE_ERROR.getCode());
+            baseResponse.setMessage(ResponseStatus.DATA_CREATE_ERROR.getMessage());
         } else {
-            baseResponse.setCode(ResultStatusCode.OK.getCode());
-            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setCode(ResponseStatus.OK.getCode());
+            baseResponse.setMessage(ResponseStatus.OK.getMessage());
         }
 
         return baseResponse;
@@ -92,12 +92,12 @@ public class BookController {
         BaseResponse baseResponse = new BaseResponse();
         if ((books != null) && (!books.isEmpty())) {
             baseResponse.setData(books);
-            baseResponse.setCode(ResultStatusCode.OK.getCode());
-            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setCode(ResponseStatus.OK.getCode());
+            baseResponse.setMessage(ResponseStatus.OK.getMessage());
         } else {
-            baseResponse.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
+            baseResponse.setCode(ResponseStatus.DATA_REQUERY_ERROR.getCode());
             baseResponse.setData("Query books failed");
-            baseResponse.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
+            baseResponse.setMessage(ResponseStatus.DATA_REQUERY_ERROR.getMessage());
         }
 
         return baseResponse;
@@ -125,13 +125,13 @@ public class BookController {
         if (book != null) {
             LOGGER.info("查询到书籍ID为{}的书籍", bookId);
             baseResponse.setData(book);
-            baseResponse.setCode(ResultStatusCode.OK.getCode());
-            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setCode(ResponseStatus.OK.getCode());
+            baseResponse.setMessage(ResponseStatus.OK.getMessage());
         } else {
             LOGGER.info("没有查询到书籍ID为{}的书籍", bookId);
-            baseResponse.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
+            baseResponse.setCode(ResponseStatus.DATA_REQUERY_ERROR.getCode());
             baseResponse.setData("Query book failed id=" + bookId);
-            baseResponse.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
+            baseResponse.setMessage(ResponseStatus.DATA_REQUERY_ERROR.getMessage());
         }
 
         return baseResponse;
@@ -152,26 +152,26 @@ public class BookController {
         LOGGER.info("请求参数bookId值：{}", bookId);
         BaseResponse baseResponse = new BaseResponse();
         if (bookId == null && book == null) {
-            baseResponse.setCode(ResultStatusCode.DATA_INPUT_ERROR.getCode());
-            baseResponse.setMessage(ResultStatusCode.DATA_INPUT_ERROR.getMessage());
+            baseResponse.setCode(ResponseStatus.DATA_INPUT_ERROR.getCode());
+            baseResponse.setMessage(ResponseStatus.DATA_INPUT_ERROR.getMessage());
             return baseResponse;
         }
 
         if (bookService.getBook(bookId) == null) {
-            baseResponse.setCode(ResultStatusCode.DATA_REQUERY_ERROR.getCode());
+            baseResponse.setCode(ResponseStatus.DATA_REQUERY_ERROR.getCode());
             baseResponse.setData("book id={}" + bookId + " not existed");
-            baseResponse.setMessage(ResultStatusCode.DATA_REQUERY_ERROR.getMessage());
+            baseResponse.setMessage(ResponseStatus.DATA_REQUERY_ERROR.getMessage());
             return baseResponse;
         }
 
         if (bookService.updateBook(bookId, book) != 1) {
             baseResponse.setData("Update book failed id=" + book.getBookId());
-            baseResponse.setCode(ResultStatusCode.DATA_UPDATED_ERROR.getCode());
-            baseResponse.setMessage(ResultStatusCode.DATA_UPDATED_ERROR.getMessage());
+            baseResponse.setCode(ResponseStatus.DATA_UPDATED_ERROR.getCode());
+            baseResponse.setMessage(ResponseStatus.DATA_UPDATED_ERROR.getMessage());
         } else {
             baseResponse.setData("Update book id=" + bookId);
-            baseResponse.setCode(ResultStatusCode.OK.getCode());
-            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setCode(ResponseStatus.OK.getCode());
+            baseResponse.setMessage(ResponseStatus.OK.getMessage());
         }
 
         return baseResponse;
@@ -192,12 +192,12 @@ public class BookController {
         BaseResponse baseResponse = new BaseResponse();
         if (bookService.deleteBook(bookId) != 1) {
             baseResponse.setData("Deleted book failed id=" + bookId);
-            baseResponse.setCode(ResultStatusCode.DATA_DELETED_ERROR.getCode());
-            baseResponse.setMessage(ResultStatusCode.DATA_DELETED_ERROR.getMessage());
+            baseResponse.setCode(ResponseStatus.DATA_DELETED_ERROR.getCode());
+            baseResponse.setMessage(ResponseStatus.DATA_DELETED_ERROR.getMessage());
         } else {
             baseResponse.setData("Deleted book id=" + bookId);
-            baseResponse.setCode(ResultStatusCode.OK.getCode());
-            baseResponse.setMessage(ResultStatusCode.OK.getMessage());
+            baseResponse.setCode(ResponseStatus.OK.getCode());
+            baseResponse.setMessage(ResponseStatus.OK.getMessage());
         }
         return baseResponse;
     }
