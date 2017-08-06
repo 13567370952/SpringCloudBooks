@@ -34,8 +34,8 @@ public class GlobalExceptionHandler {//添加全局异常处理流程，根据�
         }
 
         BaseResponse baseResponse = new BaseResponse();
-        baseResponse.setCode(ResultStatusCode.PARAMETER_ERROR.getCode());
-        baseResponse.setMessage(ResultStatusCode.PARAMETER_ERROR.getMessage());
+        baseResponse.setCode(ResponseStatus.PARAMETER_ERROR.getCode());
+        baseResponse.setMessage(ResponseStatus.PARAMETER_ERROR.getMessage());
         baseResponse.setData(invalidArguments);
         return baseResponse;
     }
