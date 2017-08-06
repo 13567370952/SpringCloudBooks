@@ -2,6 +2,7 @@ package com.wujunshen.vo.security;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * User:frankwoo(吴峻申) <br>
@@ -11,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Data
 @ConfigurationProperties(prefix = "audience")
+@Component
 public class Audience {
     private String clientId;
     private String base64Secret;
