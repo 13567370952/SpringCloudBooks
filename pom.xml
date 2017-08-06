@@ -20,7 +20,7 @@
         <module>spring-cloud-consumer-book</module>
         <module>spring-cloud-monitor-dashboard</module>
         <module>spring-cloud-aggregator</module>
-        <module>spring-cloud-config-server</module>
+        <!--<module>spring-cloud-config-server</module>-->
         <module>spring-cloud-zipkin-server</module>
         <module>spring-cloud-admin-server</module>
     </modules>
