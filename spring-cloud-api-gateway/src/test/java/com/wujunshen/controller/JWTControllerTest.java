@@ -3,9 +3,9 @@ package com.wujunshen.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wujunshen.ApiGatewayApplication;
 import com.wujunshen.exception.ResponseStatus;
-import com.wujunshen.security.LoginParameter;
 import com.wujunshen.util.Constants;
-import com.wujunshen.vo.BaseResponse;
+import com.wujunshen.vo.response.BaseResponse;
+import com.wujunshen.vo.security.LoginParameter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -81,7 +81,7 @@ public class JWTControllerTest {
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
 
-        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAM_ERROR.getCode()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAMETER_VALIDATION.getCode()));
         assertThat(actual.getMessage(), containsString("clientId:不能为空"));
     }
 
@@ -97,7 +97,7 @@ public class JWTControllerTest {
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
 
-        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAM_ERROR.getCode()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAMETER_VALIDATION.getCode()));
         assertThat(actual.getMessage(), containsString("userName:不能为空"));
     }
 
@@ -113,7 +113,7 @@ public class JWTControllerTest {
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
 
-        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAM_ERROR.getCode()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAMETER_VALIDATION.getCode()));
         assertThat(actual.getMessage(), containsString("password:不能为空"));
     }
 
@@ -129,7 +129,7 @@ public class JWTControllerTest {
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
 
-        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAM_ERROR.getCode()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAMETER_VALIDATION.getCode()));
         assertThat(actual.getMessage(), containsString("clientId:不能为空"));
         assertThat(actual.getMessage(), containsString("clientId:不能为null"));
     }
@@ -146,7 +146,7 @@ public class JWTControllerTest {
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
 
-        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAM_ERROR.getCode()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAMETER_VALIDATION.getCode()));
         assertThat(actual.getMessage(), containsString("userName:不能为空"));
         assertThat(actual.getMessage(), containsString("userName:不能为null"));
     }
@@ -163,7 +163,7 @@ public class JWTControllerTest {
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
 
-        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAM_ERROR.getCode()));
+        assertThat(actual.getCode(), equalTo(ResponseStatus.PARAMETER_VALIDATION.getCode()));
         assertThat(actual.getMessage(), containsString("password:不能为空"));
         assertThat(actual.getMessage(), containsString("password:不能为null"));
     }

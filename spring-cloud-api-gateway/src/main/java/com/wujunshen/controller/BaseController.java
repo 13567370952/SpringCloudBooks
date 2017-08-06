@@ -2,11 +2,11 @@ package com.wujunshen.controller;
 
 import com.wujunshen.entity.User;
 import com.wujunshen.exception.ResponseStatus;
-import com.wujunshen.security.Audience;
-import com.wujunshen.security.LoginParameter;
 import com.wujunshen.util.Constants;
 import com.wujunshen.util.MD5Utils;
-import com.wujunshen.vo.BaseResponse;
+import com.wujunshen.vo.response.BaseResponse;
+import com.wujunshen.vo.security.Audience;
+import com.wujunshen.vo.security.LoginParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
@@ -35,8 +35,8 @@ public class BaseController {
             }
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 
-            String formattedMessage = MessageFormat.format(ResponseStatus.PARAM_ERROR.getMessage(), stringBuilder);
-            baseResponse.setCode(ResponseStatus.PARAM_ERROR.getCode());
+            String formattedMessage = MessageFormat.format(ResponseStatus.PARAMETER_VALIDATION.getMessage(), stringBuilder);
+            baseResponse.setCode(ResponseStatus.PARAMETER_VALIDATION.getCode());
             baseResponse.setMessage(formattedMessage);
             baseResponse.setData(Constants.NULL_DATA);
             return baseResponse;
