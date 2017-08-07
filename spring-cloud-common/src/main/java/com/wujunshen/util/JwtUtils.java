@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,19 +28,34 @@ public class JwtUtils {
     private JwtUtils() {
     }
 
+    /**
+     * 验证jwt是否合法
+     *
+     * @param jsonWebToken
+     * @param base64Security
+     * @return
+     */
     public static Claims parseJWT(String jsonWebToken, String base64Security) {
         try {
             return Jwts.parser()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(base64Security))
                     .parseClaimsJws(jsonWebToken).getBody();
-        } catch (Exception ex) {
-            LOGGER.error("exception message is: " + ex.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
             return null;
         }
     }
 
+    /**
+     * 创建JWT
+     *
+     * @param loginParameter
+     * @param user
+     * @param audience
+     * @return
+     */
     public static String createJWT(LoginParameter loginParameter, User user, Audience audience) {
-        long ttlmillis = 1000 * audience.getExpiresSecond();
+        long ttlmillis = audience.getExpiresSecond() * 1000;
         String base64Security = audience.getBase64Secret();
         Date now = new Date(System.currentTimeMillis());
 

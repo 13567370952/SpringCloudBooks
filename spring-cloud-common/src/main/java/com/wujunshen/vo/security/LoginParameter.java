@@ -3,6 +3,7 @@ package com.wujunshen.vo.security;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
  * Mail:frank_wjs@hotmail.com <br>
  */
 @Data
+@AllArgsConstructor
 @ApiModel(value = "登录参数")
 public class LoginParameter {
     @NotNull(message = "不能为null")
