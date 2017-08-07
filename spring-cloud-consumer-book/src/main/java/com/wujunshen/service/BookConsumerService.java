@@ -1,7 +1,7 @@
 package com.wujunshen.service;
 
-import com.wujunshen.security.LoginParameter;
-import com.wujunshen.vo.BaseResultVo;
+import com.wujunshen.vo.security.LoginParameter;
+import com.wujunshen.vo.response.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -19,10 +19,10 @@ public interface BookConsumerService {
     Logger LOGGER = LoggerFactory.getLogger(BookConsumerService.class);
 
     @RequestMapping(value = "/api-gateway/v1/api/books/{bookId}")
-    BaseResultVo getBook(@RequestHeader("Authorization") String authorizationToken, @RequestParam("bookId") Integer bookId);
+    BaseResponse getBook(@RequestHeader("Authorization") String authorizationToken, @RequestParam("bookId") Integer bookId);
 
-    @RequestMapping(value = "/api/oauth/token", method = RequestMethod.POST)
-    BaseResultVo getToken(@RequestBody LoginParameter loginParameter);
+    @RequestMapping(value = "/oauth/token", method = RequestMethod.POST)
+    BaseResponse getToken(@RequestBody LoginParameter loginParameter);
 
     @Component
     class HystrixClientFallback implements BookConsumerService {
@@ -36,21 +36,21 @@ public interface BookConsumerService {
          * @return 默认的用户
          */
         @Override
-        public BaseResultVo getBook(String authorizationToken, Integer bookId) {
+        public BaseResponse getBook(String authorizationToken, Integer bookId) {
             HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
-            BaseResultVo baseResultVo = new BaseResultVo();
-            baseResultVo.setCode(-99);
-            baseResultVo.setMessage("无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");
-            return baseResultVo;
+            BaseResponse baseResponse = new BaseResponse();
+            baseResponse.setCode(-99);
+            baseResponse.setMessage("无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");
+            return baseResponse;
         }
 
         @Override
-        public BaseResultVo getToken(LoginParameter loginParameter) {
+        public BaseResponse getToken(LoginParameter loginParameter) {
             HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：userName = {}", loginParameter.getUserName());
-            BaseResultVo baseResultVo = new BaseResultVo();
-            baseResultVo.setCode(-99);
-            baseResultVo.setMessage("无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");
-            return baseResultVo;
+            BaseResponse baseResponse = new BaseResponse();
+            baseResponse.setCode(-99);
+            baseResponse.setMessage("无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");
+            return baseResponse;
         }
     }
 }
