@@ -1,4 +1,4 @@
-package com.wujunshen.config;
+package com.wujunshen.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,10 +23,12 @@ public class SwaggerConfig {
     @Bean
     public Docket newsApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("consumer")
+                .groupName("microservices")
                 .apiInfo(apiInfo())
                 .select()
                 .paths(regex("/consumer/.*"))
+                .paths(regex("/oauth/.*"))
+                .paths(regex("/api/.*"))
                 .build();
     }
 

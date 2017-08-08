@@ -1,4 +1,4 @@
-package com.wujunshen.vo.response;
+package com.wujunshen.web.vo.response;
 
 import lombok.Data;
 

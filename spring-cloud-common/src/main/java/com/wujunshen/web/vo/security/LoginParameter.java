@@ -1,4 +1,4 @@
-package com.wujunshen.vo.security;
+package com.wujunshen.web.vo.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;

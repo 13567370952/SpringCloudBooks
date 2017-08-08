@@ -1,8 +1,8 @@
 package com.wujunshen.util;
 
 import com.wujunshen.entity.User;
-import com.wujunshen.vo.security.Audience;
-import com.wujunshen.vo.security.LoginParameter;
+import com.wujunshen.web.vo.security.Audience;
+import com.wujunshen.web.vo.security.LoginParameter;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;

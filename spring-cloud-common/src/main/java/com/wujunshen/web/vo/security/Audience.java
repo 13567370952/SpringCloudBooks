@@ -1,4 +1,4 @@
-package com.wujunshen.vo.security;
+package com.wujunshen.web.vo.security;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

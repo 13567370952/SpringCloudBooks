@@ -1,6 +1,6 @@
-package com.wujunshen.config;
+package com.wujunshen.web.config;
 
-import com.wujunshen.filter.HTTPBearerAuthorizeFilter;
+import com.wujunshen.web.filter.HTTPBearerAuthorizeFilter;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

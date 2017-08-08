@@ -1,6 +1,6 @@
 package com.wujunshen.exception;
 
-import com.wujunshen.vo.response.BaseResponse;
+import com.wujunshen.web.vo.response.BaseResponse;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

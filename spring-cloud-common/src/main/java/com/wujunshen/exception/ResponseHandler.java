@@ -1,7 +1,7 @@
 package com.wujunshen.exception;
 
 import com.wujunshen.util.Constants;
-import com.wujunshen.vo.response.BaseResponse;
+import com.wujunshen.web.vo.response.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

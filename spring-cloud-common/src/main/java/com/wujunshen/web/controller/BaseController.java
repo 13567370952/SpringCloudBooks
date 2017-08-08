@@ -1,12 +1,12 @@
-package com.wujunshen.controller;
+package com.wujunshen.web.controller;
 
 import com.wujunshen.entity.User;
 import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.util.Constants;
 import com.wujunshen.util.MD5Utils;
-import com.wujunshen.vo.response.BaseResponse;
-import com.wujunshen.vo.security.Audience;
-import com.wujunshen.vo.security.LoginParameter;
+import com.wujunshen.web.vo.response.BaseResponse;
+import com.wujunshen.web.vo.security.Audience;
+import com.wujunshen.web.vo.security.LoginParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
