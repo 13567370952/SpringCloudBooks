@@ -26,7 +26,7 @@ public class BookService {
     private BookMapper bookMapper;
 
     public int saveBook(final Book book) {
-        return bookMapper.insert(book);
+        return bookMapper.addSelective(book);
     }
 
     public List<Book> getBooks() {

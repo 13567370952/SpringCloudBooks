@@ -1,10 +1,10 @@
-package com.wujunshen.controller;
+package com.wujunshen.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wujunshen.ProviderBookApplication;
 import com.wujunshen.entity.Book;
 import com.wujunshen.exception.ResponseStatus;
-import com.wujunshen.vo.response.BaseResponse;
+import com.wujunshen.web.vo.response.BaseResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +35,7 @@ import static org.junit.Assert.assertThat;
 @EnableAutoConfiguration
 public class BookControllerTest {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private int addFlag = 0;
 
     @Autowired
     private TestRestTemplate template;
@@ -47,31 +48,45 @@ public class BookControllerTest {
     public void tearDown() throws Exception {
     }
 
+
     @Test
-    public void saveBook() throws Exception {
+    public void addOrDeleteBook() throws Exception {
+        saveBook();
+        deleteBook();
+    }
+
+    private void saveBook() throws Exception {
         String requestBody = "{\n" +
                 "  \"bookName\": \"《大数据分析：数据驱动的企业绩效优化、过程管理和运营决策》\",\n" +
                 "  \"publisher\": \"吴峻申\"\n" +
                 "}";
 
         BaseResponse actual = template.postForObject("/api/books", OBJECT_MAPPER.readValue(requestBody, Book.class), BaseResponse.class);
-
+        addFlag = (int) actual.getData();
         assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
         assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
     }
 
+    private void deleteBook() throws Exception {
+        Object[] uriVariables = {addFlag};
+        BaseResponse actual = template.exchange("/api/books/{bookId}", HttpMethod.DELETE, null, BaseResponse.class, uriVariables).getBody();
+
+        String expected = "Deleted book id=" + uriVariables[0];
+
+        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
+        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
+        assertThat(actual.getData(), equalTo(expected));
+    }
+
     @Test
     public void getBooks() throws Exception {
-        String expected = "[{\n" +
-                "      \"bookId\": 1,\n" +
-                "      \"bookName\": \"《JAVA WEB整合开发实例精通:Struts+Hibernate+Spring》\",\n" +
-                "      \"publisher\": \"吴峻申\"\n" +
-                "    },\n" +
+        String expected = "[\n" +
                 "    {\n" +
-                "      \"bookId\": 14,\n" +
+                "      \"bookId\": 1,\n" +
                 "      \"bookName\": \"《大数据分析：数据驱动的企业绩效优化、过程管理和运营决策》\",\n" +
                 "      \"publisher\": \"吴峻申\"\n" +
-                "    }]";
+                "    }\n" +
+                "  ]";
 
         BaseResponse actual = template.getForObject("/api/books", BaseResponse.class, new HashMap<>());
 
@@ -85,7 +100,7 @@ public class BookControllerTest {
     public void getBook() throws Exception {
         String expected = "{\n" +
                 "    \"bookId\": 1,\n" +
-                "    \"bookName\": \"《JAVA WEB整合开发实例精通:Struts+Hibernate+Spring》\",\n" +
+                "    \"bookName\": \"《大数据分析：数据驱动的企业绩效优化、过程管理和运营决策》\",\n" +
                 "    \"publisher\": \"吴峻申\"\n" +
                 "  }";
 
@@ -104,31 +119,17 @@ public class BookControllerTest {
     public void updateBook() throws Exception {
         String editString = "{\n" +
                 "        \"bookName\": \"《大数据分析：数据驱动的企业绩效优化、过程管理和运营决策》\",\n" +
-                "        \"publisher\": \"吴峻申shi\"\n" +
+                "        \"publisher\": \"吴峻申\"\n" +
                 "      }";
 
         Book editedBook = OBJECT_MAPPER.readValue(editString, Book.class);
 
-        //Map<String, Object> multiValueMap = new HashMap<>();
-        //multiValueMap.put("book", editedBook);
         HttpEntity<Book> formEntity = new HttpEntity<>(editedBook);
 
-        Object[] uriVariables = {15};
+        Object[] uriVariables = {1};
 
         String expected = "Update book id=" + uriVariables[0];
         BaseResponse actual = template.exchange("/api/books/{bookId}", HttpMethod.PUT, formEntity, BaseResponse.class, uriVariables).getBody();
-
-        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
-        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
-        assertThat(actual.getData(), equalTo(expected));
-    }
-
-    @Test
-    public void deleteBook() throws Exception {
-        Object[] uriVariables = {15};
-        BaseResponse actual = template.exchange("/api/books/{bookId}", HttpMethod.DELETE, null, BaseResponse.class, uriVariables).getBody();
-
-        String expected = "Deleted book id=" + uriVariables[0];
 
         assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
         assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));

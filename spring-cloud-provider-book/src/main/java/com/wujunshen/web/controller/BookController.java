@@ -1,18 +1,15 @@
-package com.wujunshen.controller;
+package com.wujunshen.web.controller;
 
 import com.wujunshen.entity.Book;
 import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.service.BookService;
-import com.wujunshen.vo.response.BaseResponse;
+import com.wujunshen.web.vo.response.BaseResponse;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
@@ -30,19 +27,6 @@ public class BookController {
     private static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
     @Resource
     private BookService bookService;
-    @Resource
-    private DiscoveryClient discoveryClient;
-
-    /**
-     * 本地服务实例信息
-     *
-     * @return 本地服务实例
-     */
-    @GetMapping("/instance-info")
-    @ApiIgnore
-    public List<ServiceInstance> showInfo() {
-        return this.discoveryClient.getInstances("microservice-books");
-    }
 
     /**
      * @param book 传入的book对象实例
@@ -61,13 +45,14 @@ public class BookController {
             @ApiResponse(code = 500, message = "Failure")})
     public BaseResponse saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book) {
         BaseResponse baseResponse = new BaseResponse();
-
-        if (bookService.saveBook(book) != 1) {
-            baseResponse.setCode(ResponseStatus.DATA_CREATE_ERROR.getCode());
-            baseResponse.setMessage(ResponseStatus.DATA_CREATE_ERROR.getMessage());
-        } else {
+        int flag = bookService.saveBook(book);
+        if (flag != 0) {
             baseResponse.setCode(ResponseStatus.OK.getCode());
             baseResponse.setMessage(ResponseStatus.OK.getMessage());
+            baseResponse.setData(flag);
+        } else {
+            baseResponse.setCode(ResponseStatus.DATA_CREATE_ERROR.getCode());
+            baseResponse.setMessage(ResponseStatus.DATA_CREATE_ERROR.getMessage());
         }
 
         return baseResponse;
