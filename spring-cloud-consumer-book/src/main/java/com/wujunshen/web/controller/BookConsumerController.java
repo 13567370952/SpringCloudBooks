@@ -200,7 +200,7 @@ public class BookConsumerController extends BaseController {
             LOGGER.info("access_token is: {}", tokenMap.get("access_token"));
             LOGGER.info("expires_in is: {}", tokenMap.get("expires_in"));
 
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), (Long) tokenMap.get("expires_in"), TimeUnit.SECONDS);
+            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), ((Integer) tokenMap.get("expires_in")).longValue(), TimeUnit.SECONDS);
             return bookConsumerService.getBook(Constants.BEARER + " " + tokenMap.get("access_token"), bookId);
         }
 
@@ -223,7 +223,7 @@ public class BookConsumerController extends BaseController {
             LOGGER.info("access_token is: {}", tokenMap.get("access_token"));
             LOGGER.info("expires_in is: {}", tokenMap.get("expires_in"));
 
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), (Long) tokenMap.get("expires_in"), TimeUnit.SECONDS);
+            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), ((Integer) tokenMap.get("expires_in")).longValue(), TimeUnit.SECONDS);
             return bookConsumerService.saveBook(Constants.BEARER + " " + tokenMap.get("access_token"), book);
         }
 
@@ -245,7 +245,7 @@ public class BookConsumerController extends BaseController {
             LOGGER.info("access_token is: {}", tokenMap.get("access_token"));
             LOGGER.info("expires_in is: {}", tokenMap.get("expires_in"));
 
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), (Long) tokenMap.get("expires_in"), TimeUnit.SECONDS);
+            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), ((Integer) tokenMap.get("expires_in")).longValue(), TimeUnit.SECONDS);
             return bookConsumerService.getBooks(Constants.BEARER + " " + tokenMap.get("access_token"));
         }
 
@@ -267,7 +267,7 @@ public class BookConsumerController extends BaseController {
             LOGGER.info("access_token is: {}", tokenMap.get("access_token"));
             LOGGER.info("expires_in is: {}", tokenMap.get("expires_in"));
 
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), (Long) tokenMap.get("expires_in"), TimeUnit.SECONDS);
+            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), ((Integer) tokenMap.get("expires_in")).longValue(), TimeUnit.SECONDS);
             return bookConsumerService.updateBook(Constants.BEARER + " " + tokenMap.get("access_token"), bookId, book);
         }
 
@@ -289,7 +289,7 @@ public class BookConsumerController extends BaseController {
             LOGGER.info("access_token is: {}", tokenMap.get("access_token"));
             LOGGER.info("expires_in is: {}", tokenMap.get("expires_in"));
 
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), (Long) tokenMap.get("expires_in"), TimeUnit.SECONDS);
+            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get("access_token"), ((Integer) tokenMap.get("expires_in")).longValue(), TimeUnit.SECONDS);
             return bookConsumerService.deleteBook(Constants.BEARER + " " + tokenMap.get("access_token"), bookId);
         }
 

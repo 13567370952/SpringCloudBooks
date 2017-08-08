@@ -35,6 +35,7 @@ import static org.junit.Assert.assertThat;
 @EnableAutoConfiguration
 public class BookConsumerControllerTest {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private int addFlag = 0;
 
     @Autowired
     private TestRestTemplate template;
@@ -50,6 +51,11 @@ public class BookConsumerControllerTest {
     }
 
     @Test
+    public void saveAndDeleteBook() throws Exception {
+        saveBook();
+        deleteBook();
+    }
+
     public void saveBook() throws Exception {
         String requestBody = "{\n" +
                 "  \"bookName\": \"《大数据分析：数据驱动的企业绩效优化、过程管理和运营决策》\",\n" +
@@ -58,8 +64,20 @@ public class BookConsumerControllerTest {
 
         BaseResponse actual = template.postForObject("/consumer/books", OBJECT_MAPPER.readValue(requestBody, Book.class), BaseResponse.class);
 
+        addFlag = (int) actual.getData();
         assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
         assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
+    }
+
+    public void deleteBook() throws Exception {
+        Object[] uriVariables = {addFlag};
+        BaseResponse actual = template.exchange("/consumer/books/{bookId}", HttpMethod.DELETE, null, BaseResponse.class, uriVariables).getBody();
+
+        String expected = "Deleted book id=" + uriVariables[0];
+
+        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
+        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
+        assertThat(actual.getData(), equalTo(expected));
     }
 
     @Test
@@ -114,18 +132,6 @@ public class BookConsumerControllerTest {
 
         String expected = "Update book id=" + uriVariables[0];
         BaseResponse actual = template.exchange("/consumer/books/{bookId}", HttpMethod.PUT, formEntity, BaseResponse.class, uriVariables).getBody();
-
-        assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
-        assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));
-        assertThat(actual.getData(), equalTo(expected));
-    }
-
-    @Test
-    public void deleteBook() throws Exception {
-        Object[] uriVariables = {17};
-        BaseResponse actual = template.exchange("/consumer/books/{bookId}", HttpMethod.DELETE, null, BaseResponse.class, uriVariables).getBody();
-
-        String expected = "Deleted book id=" + uriVariables[0];
 
         assertThat(actual.getCode(), equalTo(ResponseStatus.OK.getCode()));
         assertThat(actual.getMessage(), equalTo(ResponseStatus.OK.getMessage()));

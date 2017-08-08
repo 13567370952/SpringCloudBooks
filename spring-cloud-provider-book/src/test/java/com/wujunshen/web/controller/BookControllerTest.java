@@ -50,7 +50,7 @@ public class BookControllerTest {
 
 
     @Test
-    public void addOrDeleteBook() throws Exception {
+    public void saveAndDeleteBook() throws Exception {
         saveBook();
         deleteBook();
     }
