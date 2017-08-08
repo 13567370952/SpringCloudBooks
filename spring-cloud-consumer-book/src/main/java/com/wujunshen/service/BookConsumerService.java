@@ -1,7 +1,8 @@
 package com.wujunshen.service;
 
-import com.wujunshen.vo.security.LoginParameter;
-import com.wujunshen.vo.response.BaseResponse;
+import com.wujunshen.entity.Book;
+import com.wujunshen.web.vo.response.BaseResponse;
+import com.wujunshen.web.vo.security.LoginParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -18,35 +19,117 @@ import org.springframework.web.bind.annotation.*;
 public interface BookConsumerService {
     Logger LOGGER = LoggerFactory.getLogger(BookConsumerService.class);
 
-    @RequestMapping(value = "/api-gateway/v1/api/books/{bookId}")
-    BaseResponse getBook(@RequestHeader("Authorization") String authorizationToken, @RequestParam("bookId") Integer bookId);
+    @PostMapping(value = "/api-gateway/v1/api/books")
+    BaseResponse saveBook(@RequestHeader("Authorization") String authorizationToken, @RequestBody Book book);
 
-    @RequestMapping(value = "/oauth/token", method = RequestMethod.POST)
+    @GetMapping(value = "/api-gateway/v1/api/books")
+    BaseResponse getBooks(@RequestHeader("Authorization") String authorizationToken);
+
+    @GetMapping(value = "/api-gateway/v1/api/books/{bookId}")
+    BaseResponse getBook(@RequestHeader("Authorization") String authorizationToken, @PathVariable("bookId") Integer bookId);
+
+    @PutMapping(value = "/api-gateway/v1/api/books/{bookId}")
+    BaseResponse updateBook(@RequestHeader("Authorization") String authorizationToken, @PathVariable("bookId") Integer bookId, @RequestBody Book book);
+
+    @DeleteMapping(value = "/api-gateway/v1/api/books/{bookId}")
+    BaseResponse deleteBook(@RequestHeader("Authorization") String authorizationToken, @PathVariable("bookId") Integer bookId);
+
+    @PostMapping(value = "/oauth/token")
     BaseResponse getToken(@RequestBody LoginParameter loginParameter);
 
     @Component
     class HystrixClientFallback implements BookConsumerService {
-        private static final Logger LOGGER = LoggerFactory.getLogger
-                (HystrixClientFallback.class);
+        private static final Logger LOGGER = LoggerFactory.getLogger(HystrixClientFallback.class);
 
         /**
          * hystrix fallback方法
          *
-         * @param bookId bookId
-         * @return 默认的用户
+         * @param authorizationToken 令牌值
+         * @param book               实体对象
+         * @return 响应消息
+         */
+        @Override
+        public BaseResponse saveBook(String authorizationToken, Book book) {
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", book.getBookId());
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookName = {}", book.getBookName());
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：publisher = {}", book.getPublisher());
+            return initFallBackResponse();
+        }
+
+        /**
+         * hystrix fallback方法
+         *
+         * @param authorizationToken 令牌值
+         * @return 响应消息
+         */
+        @Override
+        public BaseResponse getBooks(String authorizationToken) {
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法");
+            return initFallBackResponse();
+        }
+
+        /**
+         * hystrix fallback方法
+         *
+         * @param authorizationToken 令牌值
+         * @param bookId             实体对象id
+         * @return 响应消息
          */
         @Override
         public BaseResponse getBook(String authorizationToken, Integer bookId) {
             HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
-            BaseResponse baseResponse = new BaseResponse();
-            baseResponse.setCode(-99);
-            baseResponse.setMessage("无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");
-            return baseResponse;
+            return initFallBackResponse();
         }
 
+        /**
+         * hystrix fallback方法
+         *
+         * @param authorizationToken 令牌值
+         * @param bookId             实体对象id
+         * @param book               实体对象
+         * @return 响应消息
+         */
+        @Override
+        public BaseResponse updateBook(String authorizationToken, Integer bookId, Book book) {
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookName = {}", book.getBookName());
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：publisher = {}", book.getPublisher());
+            return initFallBackResponse();
+        }
+
+        /**
+         * hystrix fallback方法
+         *
+         * @param authorizationToken 令牌值
+         * @param bookId             实体对象id
+         * @return 响应消息
+         */
+        @Override
+        public BaseResponse deleteBook(String authorizationToken, Integer bookId) {
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
+            return initFallBackResponse();
+        }
+
+        /**
+         * hystrix fallback方法
+         *
+         * @param loginParameter 实体对象
+         * @return 响应消息
+         */
         @Override
         public BaseResponse getToken(LoginParameter loginParameter) {
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：clientId = {}", loginParameter.getClientId());
             HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：userName = {}", loginParameter.getUserName());
+            HystrixClientFallback.LOGGER.info("异常发生，进入fallback方法，接收的参数：password = {}", loginParameter.getPassword());
+            return initFallBackResponse();
+        }
+
+        /**
+         * 初始化熔断返回的响应消息
+         *
+         * @return 响应消息
+         */
+        private BaseResponse initFallBackResponse() {
             BaseResponse baseResponse = new BaseResponse();
             baseResponse.setCode(-99);
             baseResponse.setMessage("无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");
