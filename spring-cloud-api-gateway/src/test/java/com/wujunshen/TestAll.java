@@ -1,6 +1,6 @@
 package com.wujunshen;
 
-import com.wujunshen.controller.JWTControllerTest;
+import com.wujunshen.web.controller.JWTControllerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

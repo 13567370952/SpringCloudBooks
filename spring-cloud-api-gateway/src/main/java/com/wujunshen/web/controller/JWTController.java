@@ -1,22 +1,22 @@
-package com.wujunshen.controller;
+package com.wujunshen.web.controller;
 
 import com.wujunshen.entity.User;
 import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.service.UserService;
 import com.wujunshen.util.Constants;
 import com.wujunshen.util.JwtUtils;
-import com.wujunshen.vo.response.BaseResponse;
-import com.wujunshen.vo.security.AccessToken;
-import com.wujunshen.vo.security.Audience;
-import com.wujunshen.vo.security.LoginParameter;
+import com.wujunshen.web.vo.response.BaseResponse;
+import com.wujunshen.web.vo.security.AccessToken;
+import com.wujunshen.web.vo.security.Audience;
+import com.wujunshen.web.vo.security.LoginParameter;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -37,7 +37,7 @@ public class JWTController extends BaseController {
     @Resource
     private Audience audience;
 
-    @RequestMapping(value = "/oauth/token", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/oauth/token", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "获取access_token", httpMethod = "POST",
             notes = "成功返回access_token",
             response = BaseResponse.class

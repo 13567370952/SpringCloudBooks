@@ -1,11 +1,11 @@
-package com.wujunshen.controller;
+package com.wujunshen.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wujunshen.ApiGatewayApplication;
 import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.util.Constants;
-import com.wujunshen.vo.response.BaseResponse;
-import com.wujunshen.vo.security.LoginParameter;
+import com.wujunshen.web.vo.response.BaseResponse;
+import com.wujunshen.web.vo.security.LoginParameter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
