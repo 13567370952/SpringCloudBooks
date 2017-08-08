@@ -3,7 +3,7 @@ package com.wujunshen.service.facade;
 
 import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
 import com.wujunshen.entity.Book;
-import com.wujunshen.vo.BaseResultVo;
+import com.wujunshen.web.vo.response.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -33,10 +33,10 @@ public interface BookRest4DubboService {
     @Produces({ContentType.APPLICATION_JSON_UTF_8})
     @ApiOperation(value = "添加某本书籍", httpMethod = "POST",
             notes = "添加成功返回bookId",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
-    BaseResultVo saveBook(@ApiParam(value = "添加的某本书籍信息", required = true) final Book book);
-    //BaseResultVo saveBook(final Book book);
+    BaseResponse saveBook(@ApiParam(value = "添加的某本书籍信息", required = true) final Book book);
+    //BaseResponse saveBook(final Book book);
 
     @GET
     @Path("/api/books/{bookId : \\d+}")
@@ -44,10 +44,10 @@ public interface BookRest4DubboService {
     @Produces({ContentType.APPLICATION_JSON_UTF_8})
     @ApiOperation(value = "查询某本书籍", httpMethod = "GET",
             notes = "根据bookId，查询到某本书籍",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
-    BaseResultVo getBook(@ApiParam(value = "书籍ID", required = true) @PathParam("bookId") int bookId);
-    //BaseResultVo getBook(@PathParam("bookId") int bookId);
+    BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathParam("bookId") int bookId);
+    //BaseResponse getBook(@PathParam("bookId") int bookId);
 
     @Path("/api/books")
     @GET
@@ -55,9 +55,9 @@ public interface BookRest4DubboService {
     @Produces({ContentType.APPLICATION_JSON_UTF_8})
     @ApiOperation(value = "查询所有书籍", httpMethod = "GET",
             notes = "查询所有书籍",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
-    BaseResultVo getBooks();
+    BaseResponse getBooks();
 
     @Path("/api/books/{bookId:[0-9]*}")
     @PUT
@@ -65,10 +65,10 @@ public interface BookRest4DubboService {
     @Produces({ContentType.APPLICATION_JSON_UTF_8})
     @ApiOperation(value = "更新某本书籍", httpMethod = "PUT",
             notes = "更新的某本书籍信息",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
-    BaseResultVo updateBook(@ApiParam(value = "要更新的某本书籍ID", required = true) @PathParam("bookId") int bookId, @ApiParam(value = "要更新的某本书籍信息", required = true) Book book);
-    //BaseResultVo updateBook(@PathParam("bookId") int bookId, Book book);
+    BaseResponse updateBook(@ApiParam(value = "要更新的某本书籍ID", required = true) @PathParam("bookId") int bookId, @ApiParam(value = "要更新的某本书籍信息", required = true) Book book);
+    //BaseResponse updateBook(@PathParam("bookId") int bookId, Book book);
 
     @Path("/api/books/{bookId:[0-9]*}")
     @DELETE
@@ -76,8 +76,8 @@ public interface BookRest4DubboService {
     @Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_PLAIN_UTF_8})
     @ApiOperation(value = "删除某本书籍信息", httpMethod = "DELETE",
             notes = "删除某本书籍信息",
-            response = BaseResultVo.class
+            response = BaseResponse.class
     )
-    BaseResultVo deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathParam("bookId") int bookId);
-    //BaseResultVo deleteBook(@PathParam("bookId") int bookId);
+    BaseResponse deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathParam("bookId") int bookId);
+    //BaseResponse deleteBook(@PathParam("bookId") int bookId);
 }

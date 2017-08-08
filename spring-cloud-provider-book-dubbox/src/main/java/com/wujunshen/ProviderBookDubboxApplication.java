@@ -18,11 +18,11 @@ import org.springframework.context.annotation.ImportResource;
 @MapperScan("com.wujunshen.dao")
 @ImportResource({"classpath:dubboContext.xml"})
 @EnableDiscoveryClient
-public class SpringCloudProviderBookDubboxApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SpringCloudProviderBookDubboxApplication.class);
+public class ProviderBookDubboxApplication {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProviderBookDubboxApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringCloudProviderBookDubboxApplication.class, args);
+        SpringApplication.run(ProviderBookDubboxApplication.class, args);
     }
 
     @Bean

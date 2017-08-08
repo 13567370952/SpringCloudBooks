@@ -4,7 +4,6 @@ package com.wujunshen.service;
 import com.wujunshen.dao.BookMapper;
 import com.wujunshen.entity.Book;
 import com.wujunshen.entity.BookCriteria;
-import com.wujunshen.entity.Books;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +11,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User:Administrator(吴峻申)
@@ -66,11 +66,11 @@ public class BookServiceImpl implements BookService, ApplicationContextAware {
         return bookMapper.selectByPrimaryKey(bookId);
     }
 
-    public Books getBooks() {
+    public List<Book> getBooks() {
         BookCriteria bookCriteria = new BookCriteria();
         BookCriteria.Criteria criteria = bookCriteria.createCriteria();
 
-        return new Books(bookMapper.selectByExample(bookCriteria));
+        return bookMapper.selectByExample(bookCriteria);
     }
 
     public Book updateBook(int bookId, Book book) {

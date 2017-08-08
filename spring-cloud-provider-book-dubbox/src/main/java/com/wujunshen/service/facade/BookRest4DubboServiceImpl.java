@@ -2,9 +2,9 @@ package com.wujunshen.service.facade;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.wujunshen.entity.Book;
-import com.wujunshen.entity.Books;
+import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.service.BookService;
-import com.wujunshen.vo.BaseResultVo;
+import com.wujunshen.web.vo.response.BaseResponse;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User:Administrator(吴峻申)
@@ -70,17 +71,18 @@ public class BookRest4DubboServiceImpl implements BookRest4DubboService, Applica
         this.bookService = bookService;
     }
 
-    public BaseResultVo saveBook(final Book book) {
-        BaseResultVo baseResultVo = new BaseResultVo();
-        baseResultVo.setData(bookService.saveBook(book));
-        baseResultVo.setMessage("成功");
-        return baseResultVo;
+    public BaseResponse saveBook(final Book book) {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setData(bookService.saveBook(book));
+        baseResponse.setMessage(ResponseStatus.OK.getMessage());
+        baseResponse.setCode(ResponseStatus.OK.getCode());
+        return baseResponse;
     }
 
-    public BaseResultVo getBooks() {
-        final Books books = bookService.getBooks();
-        BaseResultVo baseResultVo = new BaseResultVo();
-        if (books != null && books.getBookList().size() != 0) {
+    public BaseResponse getBooks() {
+        final List<Book> books = bookService.getBooks();
+        BaseResponse baseResultVo = new BaseResponse();
+        if (books != null && books.size() != 0) {
             baseResultVo.setData(books);
             baseResultVo.setMessage("成功");
         } else {
@@ -92,55 +94,55 @@ public class BookRest4DubboServiceImpl implements BookRest4DubboService, Applica
         return baseResultVo;
     }
 
-    public BaseResultVo getBook(int bookId) {
+    public BaseResponse getBook(int bookId) {
         final Book book = bookService.getBook(bookId);
-        BaseResultVo baseResultVo = new BaseResultVo();
+        BaseResponse baseResponse = new BaseResponse();
         if (book != null) {
-            baseResultVo.setData(book);
-            baseResultVo.setMessage("成功");
+            baseResponse.setData(book);
+            baseResponse.setMessage("成功");
         } else {
-            baseResultVo.setCode(99);
-            baseResultVo.setData("");
-            baseResultVo.setMessage("没有查询到书籍ID为" + bookId + "书籍");
+            baseResponse.setCode(99);
+            baseResponse.setData("");
+            baseResponse.setMessage("没有查询到书籍ID为" + bookId + "书籍");
         }
 
-        return baseResultVo;
+        return baseResponse;
     }
 
-    @ApiOperation(value = "查询所有书籍", httpMethod = "GET", notes = "查询所有书籍", response = BaseResultVo.class)
-    public BaseResultVo updateBook(int bookId, final Book book) {
-        BaseResultVo baseResultVo = new BaseResultVo();
+    @ApiOperation(value = "查询所有书籍", httpMethod = "GET", notes = "查询所有书籍", response = BaseResponse.class)
+    public BaseResponse updateBook(int bookId, final Book book) {
+        BaseResponse baseResponse = new BaseResponse();
         if (book == null) {
-            baseResultVo.setCode(99);
-            baseResultVo.setData("");
-            baseResultVo.setMessage("要修改的书籍ID为" + bookId + "书籍不存在");
-            return baseResultVo;
+            baseResponse.setCode(99);
+            baseResponse.setData("");
+            baseResponse.setMessage("要修改的书籍ID为" + bookId + "书籍不存在");
+            return baseResponse;
         }
 
         Book updatedBook = bookService.updateBook(bookId, book);
 
         if (updatedBook != null) {
-            baseResultVo.setData(updatedBook);
-            baseResultVo.setMessage("成功");
+            baseResponse.setData(updatedBook);
+            baseResponse.setMessage("成功");
         } else {
-            baseResultVo.setCode(99);
-            baseResultVo.setData("");
-            baseResultVo.setMessage("修改书籍ID为" + bookId + "书籍失败");
+            baseResponse.setCode(99);
+            baseResponse.setData("");
+            baseResponse.setMessage("修改书籍ID为" + bookId + "书籍失败");
         }
 
-        return baseResultVo;
+        return baseResponse;
     }
 
-    public BaseResultVo deleteBook(int bookId) {
-        BaseResultVo baseResultVo = new BaseResultVo();
+    public BaseResponse deleteBook(int bookId) {
+        BaseResponse baseResponse = new BaseResponse();
         if (bookService.deleteBook(bookId) == 1) {
-            baseResultVo.setData("Deleted book id=" + bookId);
-            baseResultVo.setMessage("成功");
+            baseResponse.setData("Deleted book id=" + bookId);
+            baseResponse.setMessage("成功");
         } else {
-            baseResultVo.setCode(99);
-            baseResultVo.setData("Deleted book failed id=" + bookId);
-            baseResultVo.setMessage("删除书籍ID为" + bookId + "的书籍失败");
+            baseResponse.setCode(99);
+            baseResponse.setData("Deleted book failed id=" + bookId);
+            baseResponse.setMessage("删除书籍ID为" + bookId + "的书籍失败");
         }
-        return baseResultVo;
+        return baseResponse;
     }
 }

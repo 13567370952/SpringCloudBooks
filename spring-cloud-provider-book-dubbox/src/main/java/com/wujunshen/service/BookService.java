@@ -2,7 +2,8 @@ package com.wujunshen.service;
 
 
 import com.wujunshen.entity.Book;
-import com.wujunshen.entity.Books;
+
+import java.util.List;
 
 /**
  * User:Administrator(吴峻申)
@@ -15,7 +16,7 @@ public interface BookService {
 
     Book getBook(final int bookId);
 
-    Books getBooks();
+    List<Book> getBooks();
 
     Book updateBook(int bookId, Book book);
 

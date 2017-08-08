@@ -17,8 +17,7 @@ package com.wujunshen;
 
 import com.alibaba.dubbo.common.serialize.support.SerializationOptimizer;
 import com.wujunshen.entity.Book;
-import com.wujunshen.entity.Books;
-import com.wujunshen.vo.BaseResultVo;
+import com.wujunshen.web.vo.response.BaseResponse;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -34,8 +33,8 @@ public class SerializationOptimizerImpl implements SerializationOptimizer {
     public Collection<Class> getSerializableClasses() {
         List<Class> classes = new LinkedList<>();
         classes.add(Book.class);
-        classes.add(Books.class);
-        classes.add(BaseResultVo.class);
+        //classes.add(Books.class);
+        classes.add(BaseResponse.class);
         return classes;
     }
 }
