@@ -31,7 +31,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
             //start consuming messages. Auto acknowledge messages.
             channel.basicConsume(endPointName, true, this);
         } catch (IOException e) {
-            LOGGER.error("error is {}", ExceptionUtils.getStackTrace(e));
+            LOGGER.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
         }
     }
 
