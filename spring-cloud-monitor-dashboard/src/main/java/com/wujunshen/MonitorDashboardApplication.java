@@ -2,8 +2,8 @@ package com.wujunshen;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 
 /**
@@ -19,8 +19,7 @@ public class MonitorDashboardApplication {
 
     public static void main(String[] args) {
         LOGGER.info("start execute MonitorDashboardApplication....\n");
-        //SpringApplication.run(MonitorDashboardApplication.class, args);
-        new SpringApplicationBuilder(MonitorDashboardApplication.class).web(true).run(args);
+        SpringApplication.run(MonitorDashboardApplication.class, args);
         LOGGER.info("end execute MonitorDashboardApplication....\n");
     }
 }

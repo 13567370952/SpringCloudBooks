@@ -5,7 +5,7 @@
 
     <artifactId>spring-cloud-monitor-dashboard</artifactId>
     <version>1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>spring-cloud-monitor-dashboard</name>
     <description>Demo-monitor micorservices in hystrix steam</description>
