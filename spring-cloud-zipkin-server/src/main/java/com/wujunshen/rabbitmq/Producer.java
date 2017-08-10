@@ -1,8 +1,6 @@
 package com.wujunshen.rabbitmq;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,8 +14,6 @@ import java.util.concurrent.TimeoutException;
  * Mail:frank_wjs@hotmail.com <br>
  */
 public class Producer extends EndPoint {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Producer.class);
-
     public Producer(String endPointName) throws IOException, TimeoutException {
         super(endPointName);
     }
