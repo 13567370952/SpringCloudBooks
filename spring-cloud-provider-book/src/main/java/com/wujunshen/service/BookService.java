@@ -4,8 +4,6 @@ package com.wujunshen.service;
 import com.wujunshen.dao.BookMapper;
 import com.wujunshen.entity.Book;
 import com.wujunshen.entity.BookCriteria;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,7 +19,6 @@ import java.util.List;
  */
 @Service
 public class BookService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BookService.class);
     @Resource
     private BookMapper bookMapper;
 

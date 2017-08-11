@@ -9,7 +9,6 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-//@EnableConfigurationProperties(Audience.class)
 @EnableZuulProxy
 public class ApiGatewayApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiGatewayApplication.class);

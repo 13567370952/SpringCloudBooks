@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+import org.springframework.cloud.netflix.turbine.EnableTurbine;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 @EnableAutoConfiguration
 @EnableAdminServer
 @EnableDiscoveryClient
+@EnableTurbine
 @EnableHystrixDashboard
 public class AdminServerApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminServerApplication.class);
@@ -38,7 +40,6 @@ public class AdminServerApplication {
     }
 
     @Profile("secure")
-    // tag::configuration-spring-security[]
     @Configuration
     public static class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
@@ -61,7 +62,6 @@ public class AdminServerApplication {
             http.httpBasic();
         }
     }
-    // end::configuration-spring-security[]
 
     @Configuration
     public static class NotifierConfig {
