@@ -4,8 +4,7 @@ import com.wujunshen.entity.Book;
 import com.wujunshen.web.vo.response.BaseResponse;
 import com.wujunshen.web.vo.security.LoginParameter;
 import feign.hystrix.FallbackFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +36,8 @@ public interface BookConsumerService {
     BaseResponse getToken(@RequestBody LoginParameter loginParameter);
 
     @Component
+    @Slf4j
     class FeignClientFallbackFactory implements FallbackFactory<BookConsumerService> {
-        private static final Logger LOGGER = LoggerFactory.getLogger(FeignClientFallbackFactory.class);
 
         @Override
         public BookConsumerService create(Throwable cause) {
@@ -52,9 +51,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse saveBook(String authorizationToken, Book book) {
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", book.getBookId());
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookName = {}", book.getBookName());
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：publisher = {}", book.getPublisher());
+                    log.info("异常发生，进入fallback方法，接收的参数：bookId = {}", book.getBookId());
+                    log.info("异常发生，进入fallback方法，接收的参数：bookName = {}", book.getBookName());
+                    log.info("异常发生，进入fallback方法，接收的参数：publisher = {}", book.getPublisher());
                     return initFallBackResponse();
                 }
 
@@ -66,7 +65,7 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse getBooks(String authorizationToken) {
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法");
+                    log.info("异常发生，进入fallback方法");
                     return initFallBackResponse();
                 }
 
@@ -79,7 +78,7 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse getBook(String authorizationToken, Integer bookId) {
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
+                    log.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
                     return initFallBackResponse();
                 }
 
@@ -93,9 +92,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse updateBook(String authorizationToken, Integer bookId, Book book) {
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookName = {}", book.getBookName());
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：publisher = {}", book.getPublisher());
+                    log.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
+                    log.info("异常发生，进入fallback方法，接收的参数：bookName = {}", book.getBookName());
+                    log.info("异常发生，进入fallback方法，接收的参数：publisher = {}", book.getPublisher());
                     return initFallBackResponse();
                 }
 
@@ -108,7 +107,7 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse deleteBook(String authorizationToken, Integer bookId) {
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
+                    log.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
                     return initFallBackResponse();
                 }
 
@@ -120,9 +119,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse getToken(LoginParameter loginParameter) {
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：clientId = {}", loginParameter.getClientId());
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：userName = {}", loginParameter.getUserName());
-                    FeignClientFallbackFactory.LOGGER.info("异常发生，进入fallback方法，接收的参数：password = {}", loginParameter.getPassword());
+                    log.info("异常发生，进入fallback方法，接收的参数：clientId = {}", loginParameter.getClientId());
+                    log.info("异常发生，进入fallback方法，接收的参数：userName = {}", loginParameter.getUserName());
+                    log.info("异常发生，进入fallback方法，接收的参数：password = {}", loginParameter.getPassword());
                     return initFallBackResponse();
                 }
 

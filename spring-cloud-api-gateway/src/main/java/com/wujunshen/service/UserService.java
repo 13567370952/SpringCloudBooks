@@ -3,8 +3,7 @@ package com.wujunshen.service;
 import com.wujunshen.dao.UserMapper;
 import com.wujunshen.entity.User;
 import com.wujunshen.entity.UserCriteria;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,14 +16,10 @@ import java.util.List;
  * Mail:frank_wjs@hotmail.com <br>
  */
 @Service
+@Slf4j
 public class UserService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     @Resource
     private UserMapper userMapper;
-
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
 
     public User findUserInfoByName(String userName) {
         UserCriteria userCriteria = new UserCriteria();

@@ -1,7 +1,6 @@
 package com.wujunshen;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -16,12 +15,11 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableHystrixDashboard
+@Slf4j
 public class MonitorDashboardApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MonitorDashboardApplication.class);
-
     public static void main(String[] args) {
-        LOGGER.info("start execute MonitorDashboardApplication....\n");
+        log.info("start execute MonitorDashboardApplication....\n");
         SpringApplication.run(MonitorDashboardApplication.class, args);
-        LOGGER.info("end execute MonitorDashboardApplication....\n");
+        log.info("end execute MonitorDashboardApplication....\n");
     }
 }

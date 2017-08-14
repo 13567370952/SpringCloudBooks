@@ -1,8 +1,7 @@
 package com.wujunshen.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.security.MessageDigest;
 
@@ -12,24 +11,23 @@ import java.security.MessageDigest;
  * Time:16:57 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
+@Slf4j
 public class MD5Utils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MD5Utils.class);
-
     private MD5Utils() {
     }
 
     /**
      * 获取MD5值
      *
-     * @param inStr
-     * @return
+     * @param inStr 要加密的字符串
+     * @return MD5值
      */
     public static String getMD5(String inStr) {
         MessageDigest md5;
         try {
             md5 = MessageDigest.getInstance("MD5");
         } catch (Exception e) {
-            LOGGER.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
+            log.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
             return "";
         }
         char[] charArray = inStr.toCharArray();

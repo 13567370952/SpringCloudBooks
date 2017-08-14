@@ -10,8 +10,7 @@ import com.wujunshen.web.vo.security.AccessToken;
 import com.wujunshen.web.vo.security.Audience;
 import com.wujunshen.web.vo.security.LoginParameter;
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -29,8 +28,8 @@ import javax.annotation.Resource;
  */
 @RestController
 @Api(value = "/")
+@Slf4j
 public class JWTController extends BaseController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JWTController.class);
     @Resource
     private UserService userService;
 

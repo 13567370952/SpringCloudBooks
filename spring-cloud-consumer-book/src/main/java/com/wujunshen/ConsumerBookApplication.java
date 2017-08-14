@@ -1,7 +1,6 @@
 package com.wujunshen;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -12,12 +11,11 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients
 @EnableCircuitBreaker
+@Slf4j
 public class ConsumerBookApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumerBookApplication.class);
-
     public static void main(String[] args) {
-        LOGGER.info("start execute ConsumerBookApplication....\n");
+        log.info("start execute ConsumerBookApplication....\n");
         SpringApplication.run(ConsumerBookApplication.class, args);
-        LOGGER.info("end execute ConsumerBookApplication....\n");
+        log.info("end execute ConsumerBookApplication....\n");
     }
 }

@@ -5,8 +5,7 @@ import de.codecentric.boot.admin.notify.LoggingNotifier;
 import de.codecentric.boot.admin.notify.Notifier;
 import de.codecentric.boot.admin.notify.RemindingNotifier;
 import de.codecentric.boot.admin.notify.filter.FilteringNotifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,13 +29,12 @@ import java.util.concurrent.TimeUnit;
 @EnableDiscoveryClient
 @EnableTurbine
 @EnableHystrixDashboard
+@Slf4j
 public class AdminServerApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminServerApplication.class);
-
     public static void main(String[] args) {
-        LOGGER.info("start execute AdminServerApplication....\n");
+        log.info("start execute AdminServerApplication....\n");
         SpringApplication.run(AdminServerApplication.class, args);
-        LOGGER.info("end execute AdminServerApplication....\n");
+        log.info("end execute AdminServerApplication....\n");
     }
 
     @Profile("secure")

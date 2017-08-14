@@ -8,9 +8,8 @@ import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.util.Constants;
 import com.wujunshen.util.JwtUtils;
 import com.wujunshen.web.vo.security.Audience;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
@@ -24,8 +23,8 @@ import java.io.IOException;
  * Time:17:02 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
+@Slf4j
 public class HTTPBearerAuthorizeFilter extends ZuulFilter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(HTTPBearerAuthorizeFilter.class);
     @Autowired
     private Audience audience;
 
@@ -87,10 +86,10 @@ public class HTTPBearerAuthorizeFilter extends ZuulFilter {
                 return null;
             }
         } catch (IOException e) {
-            LOGGER.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
+            log.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
             return null;
         }
-        LOGGER.info("request URI is:{}", request.getRequestURI());
+        log.info("request URI is:{}", request.getRequestURI());
         return null;
     }
 
@@ -120,9 +119,9 @@ public class HTTPBearerAuthorizeFilter extends ZuulFilter {
      * @return
      */
     private boolean isValidJwt(HttpServletRequest request) {
-        LOGGER.info("{} request to {}", request.getMethod(), request.getRequestURL());
+        log.info("{} request to {}", request.getMethod(), request.getRequestURL());
         String authorization = request.getHeader("Authorization");
-        LOGGER.info("authorization is :{}", authorization);
+        log.info("authorization is :{}", authorization);
         String headString = authorization.substring(0, 6).toLowerCase();
         if (headString.compareTo(Constants.BEARER) == 0) {
             authorization = authorization.substring(7, authorization.length());
@@ -140,9 +139,9 @@ public class HTTPBearerAuthorizeFilter extends ZuulFilter {
      * @return
      */
     private boolean isExistedAuthorization(HttpServletRequest request) {
-        LOGGER.info("{} request to {}", request.getMethod(), request.getRequestURL());
+        log.info("{} request to {}", request.getMethod(), request.getRequestURL());
         String authorization = request.getHeader("Authorization");
-        LOGGER.info("authorization is :{}", authorization);
+        log.info("authorization is :{}", authorization);
         return !(authorization == null || authorization.length() <= 7);
     }
 }

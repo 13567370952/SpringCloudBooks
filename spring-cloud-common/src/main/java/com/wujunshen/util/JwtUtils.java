@@ -7,9 +7,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -22,9 +21,8 @@ import java.util.Date;
  * Time:16:44 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
+@Slf4j
 public class JwtUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtils.class);
-
     private JwtUtils() {
     }
 
@@ -41,7 +39,7 @@ public class JwtUtils {
                     .setSigningKey(DatatypeConverter.parseBase64Binary(base64Security))
                     .parseClaimsJws(jsonWebToken).getBody();
         } catch (Exception e) {
-            LOGGER.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
+            log.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
             return null;
         }
     }
@@ -55,7 +53,7 @@ public class JwtUtils {
      * @return
      */
     public static String createJWT(LoginParameter loginParameter, User user, Audience audience) {
-        long ttlmillis = audience.getExpiresSecond() * 1000;
+        long ttlmillis = audience.getExpiresSecond() * 1000L;
         String base64Security = audience.getBase64Secret();
         Date now = new Date(System.currentTimeMillis());
 

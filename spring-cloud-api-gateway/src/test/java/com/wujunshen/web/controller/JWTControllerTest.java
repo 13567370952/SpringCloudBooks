@@ -6,12 +6,11 @@ import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.util.Constants;
 import com.wujunshen.web.vo.response.BaseResponse;
 import com.wujunshen.web.vo.security.LoginParameter;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,9 +32,8 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApiGatewayApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration
+@Slf4j
 public class JWTControllerTest {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JWTControllerTest.class);
-
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Autowired
@@ -56,7 +54,7 @@ public class JWTControllerTest {
                 "  \"password\": \"wujunshen\",\n" +
                 "  \"user_name\": \"wujunshen\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
 
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
@@ -75,7 +73,7 @@ public class JWTControllerTest {
                 "  \"password\": \"wujunshen\",\n" +
                 "  \"user_name\": \"wujunshen\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
 
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
@@ -92,7 +90,7 @@ public class JWTControllerTest {
                 "  \"password\": \"wujunshen\",\n" +
                 "  \"user_name\": \"\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
@@ -108,7 +106,7 @@ public class JWTControllerTest {
                 "  \"password\": \"\",\n" +
                 "  \"user_name\": \"wujunshen\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
@@ -124,7 +122,7 @@ public class JWTControllerTest {
                 "  \"password\": \"wujunshen\",\n" +
                 "  \"user_name\": \"wujunshen\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
@@ -141,7 +139,7 @@ public class JWTControllerTest {
                 "  \"password\": \"wujunshen\",\n" +
                 "  \"user_name\":null\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
@@ -158,7 +156,7 @@ public class JWTControllerTest {
                 "  \"password\":null,\n" +
                 "  \"user_name\": \"wujunshen\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
@@ -175,7 +173,7 @@ public class JWTControllerTest {
                 "  \"password\": \"wujunshen\",\n" +
                 "  \"user_name\": \"wujunshen\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
@@ -191,7 +189,7 @@ public class JWTControllerTest {
                 "  \"password\": \"wujunshen\",\n" +
                 "  \"user_name\": \"wujunshen1\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);
@@ -207,7 +205,7 @@ public class JWTControllerTest {
                 "  \"password\": \"wujunshen1\",\n" +
                 "  \"user_name\": \"wujunshen\"\n" +
                 "}";
-        LOGGER.info("jsonString is: {}", jsonString);
+        log.info("jsonString is: {}", jsonString);
         LoginParameter parameter = OBJECT_MAPPER.readValue(jsonString, LoginParameter.class);
 
         BaseResponse actual = template.postForObject("/oauth/token", parameter, BaseResponse.class);

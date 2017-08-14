@@ -7,8 +7,7 @@ import com.wujunshen.util.MD5Utils;
 import com.wujunshen.web.vo.response.BaseResponse;
 import com.wujunshen.web.vo.security.Audience;
 import com.wujunshen.web.vo.security.LoginParameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -21,9 +20,8 @@ import java.util.List;
  * Time:11:04 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
+@Slf4j
 public class BaseController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BaseController.class);
-
     public BaseResponse getValidatedResult(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             BaseResponse baseResponse = new BaseResponse();
@@ -91,7 +89,7 @@ public class BaseController {
      */
     public BaseResponse isValidPassword(LoginParameter loginParameter, User user) {
         String md5Password = MD5Utils.getMD5(loginParameter.getPassword() + user.getSalt());
-        LOGGER.info("md5Password is: {}", md5Password);
+        log.info("md5Password is: {}", md5Password);
         if (md5Password.compareTo(user.getPassword()) != 0) {
             BaseResponse baseResponse = new BaseResponse();
             baseResponse.setCode(ResponseStatus.INVALID_PASSWORD.getCode());

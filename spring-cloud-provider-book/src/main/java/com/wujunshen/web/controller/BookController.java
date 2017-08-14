@@ -5,8 +5,7 @@ import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.service.BookService;
 import com.wujunshen.web.vo.response.BaseResponse;
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +22,8 @@ import java.util.List;
  */
 @RestController
 @Api(value = "/")
+@Slf4j
 public class BookController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
     @Resource
     private BookService bookService;
 
@@ -104,16 +103,16 @@ public class BookController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     public BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
-        LOGGER.info("请求参数bookId值：{}", bookId);
+        log.info("请求参数bookId值：{}", bookId);
         Book book = bookService.getBook(bookId);
         BaseResponse baseResponse = new BaseResponse();
         if (book != null) {
-            LOGGER.info("查询到书籍ID为{}的书籍", bookId);
+            log.info("查询到书籍ID为{}的书籍", bookId);
             baseResponse.setData(book);
             baseResponse.setCode(ResponseStatus.OK.getCode());
             baseResponse.setMessage(ResponseStatus.OK.getMessage());
         } else {
-            LOGGER.info("没有查询到书籍ID为{}的书籍", bookId);
+            log.info("没有查询到书籍ID为{}的书籍", bookId);
             baseResponse.setCode(ResponseStatus.DATA_REQUERY_ERROR.getCode());
             baseResponse.setData("Query book failed id=" + bookId);
             baseResponse.setMessage(ResponseStatus.DATA_REQUERY_ERROR.getMessage());
@@ -134,7 +133,7 @@ public class BookController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     public BaseResponse updateBook(@NotNull @ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @Validated @NotNull @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book) {
-        LOGGER.info("请求参数bookId值：{}", bookId);
+        log.info("请求参数bookId值：{}", bookId);
         BaseResponse baseResponse = new BaseResponse();
         if (bookId == null && book == null) {
             baseResponse.setCode(ResponseStatus.DATA_INPUT_ERROR.getCode());

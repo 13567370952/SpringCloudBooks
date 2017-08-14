@@ -1,19 +1,17 @@
 package com.wujunshen;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@Slf4j
 public class ProviderBookApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProviderBookApplication.class);
-
     public static void main(String[] args) {
-        LOGGER.info("start execute ProviderBookApplication....\n");
+        log.info("start execute ProviderBookApplication....\n");
         SpringApplication.run(ProviderBookApplication.class, args);
-        LOGGER.info("end execute ProviderBookApplication....\n");
+        log.info("end execute ProviderBookApplication....\n");
     }
 }

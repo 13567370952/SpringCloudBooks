@@ -4,10 +4,9 @@ import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.ShutdownSignalException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
@@ -19,9 +18,8 @@ import java.util.concurrent.TimeoutException;
  * Time:下午4:29 <br>
  * Mail:frank_wjs@hotmail.com <br>
  */
+@Slf4j
 public class QueueConsumer extends EndPoint implements Runnable, Consumer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(QueueConsumer.class);
-
     QueueConsumer(String endPointName) throws IOException, TimeoutException {
         super(endPointName);
     }
@@ -31,7 +29,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
             //start consuming messages. Auto acknowledge messages.
             channel.basicConsume(endPointName, true, this);
         } catch (IOException e) {
-            LOGGER.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
+            log.error("exception message is: {}", ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -39,7 +37,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
      * Called when consumer is registered.
      */
     public void handleConsumeOk(String consumerTag) {
-        LOGGER.info("Consumer {} registered", consumerTag);
+        log.info("Consumer {} registered", consumerTag);
     }
 
     /**
@@ -48,27 +46,27 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
     public void handleDelivery(String consumerTag, Envelope env,
                                BasicProperties props, byte[] body) throws IOException {
         Map map = SerializationUtils.deserialize(body);
-        LOGGER.info("Message Number {} received.", map.get("message number"));
+        log.info("Message Number {} received.", map.get("message number"));
 
     }
 
     @Override
     public void handleCancel(String consumerTag) {
-        LOGGER.info("Consumer {} cancel", consumerTag);
+        log.info("Consumer {} cancel", consumerTag);
     }
 
     @Override
     public void handleCancelOk(String consumerTag) {
-        LOGGER.info("Consumer {} cancel", consumerTag);
+        log.info("Consumer {} cancel", consumerTag);
     }
 
     @Override
     public void handleRecoverOk(String consumerTag) {
-        LOGGER.info("Consumer {} recover", consumerTag);
+        log.info("Consumer {} recover", consumerTag);
     }
 
     @Override
     public void handleShutdownSignal(String consumerTag, ShutdownSignalException sig) {
-        LOGGER.info("Consumer {},{} shutdown", consumerTag, sig);
+        log.info("Consumer {},{} shutdown", consumerTag, sig);
     }
 }
