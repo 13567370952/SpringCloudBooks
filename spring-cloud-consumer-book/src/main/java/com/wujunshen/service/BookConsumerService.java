@@ -1,6 +1,8 @@
 package com.wujunshen.service;
 
 import com.wujunshen.entity.Book;
+import com.wujunshen.exception.ResponseStatus;
+import com.wujunshen.util.Constants;
 import com.wujunshen.web.vo.response.BaseResponse;
 import com.wujunshen.web.vo.security.LoginParameter;
 import feign.hystrix.FallbackFactory;
@@ -51,9 +53,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse saveBook(String authorizationToken, Book book) {
-                    log.info("异常发生，进入fallback方法，接收的参数：bookId = {}", book.getBookId());
-                    log.info("异常发生，进入fallback方法，接收的参数：bookName = {}", book.getBookName());
-                    log.info("异常发生，进入fallback方法，接收的参数：publisher = {}", book.getPublisher());
+                    log.info(Constants.FALL_BACK + " bookId = {}", book.getBookId());
+                    log.info(Constants.FALL_BACK + " bookName = {}", book.getBookName());
+                    log.info(Constants.FALL_BACK + " publisher = {}", book.getPublisher());
                     return initFallBackResponse();
                 }
 
@@ -65,7 +67,7 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse getBooks(String authorizationToken) {
-                    log.info("异常发生，进入fallback方法");
+                    log.info(Constants.FALL_BACK);
                     return initFallBackResponse();
                 }
 
@@ -78,7 +80,7 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse getBook(String authorizationToken, Integer bookId) {
-                    log.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
+                    log.info(Constants.FALL_BACK + " bookId = {}", bookId);
                     return initFallBackResponse();
                 }
 
@@ -92,9 +94,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse updateBook(String authorizationToken, Integer bookId, Book book) {
-                    log.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
-                    log.info("异常发生，进入fallback方法，接收的参数：bookName = {}", book.getBookName());
-                    log.info("异常发生，进入fallback方法，接收的参数：publisher = {}", book.getPublisher());
+                    log.info(Constants.FALL_BACK + " bookId = {}", bookId);
+                    log.info(Constants.FALL_BACK + " bookName = {}", book.getBookName());
+                    log.info(Constants.FALL_BACK + " publisher = {}", book.getPublisher());
                     return initFallBackResponse();
                 }
 
@@ -107,7 +109,7 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse deleteBook(String authorizationToken, Integer bookId) {
-                    log.info("异常发生，进入fallback方法，接收的参数：bookId = {}", bookId);
+                    log.info(Constants.FALL_BACK + " bookId = {}", bookId);
                     return initFallBackResponse();
                 }
 
@@ -119,9 +121,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse getToken(LoginParameter loginParameter) {
-                    log.info("异常发生，进入fallback方法，接收的参数：clientId = {}", loginParameter.getClientId());
-                    log.info("异常发生，进入fallback方法，接收的参数：userName = {}", loginParameter.getUserName());
-                    log.info("异常发生，进入fallback方法，接收的参数：password = {}", loginParameter.getPassword());
+                    log.info(Constants.FALL_BACK + " clientId = {}", loginParameter.getClientId());
+                    log.info(Constants.FALL_BACK + " userName = {}", loginParameter.getUserName());
+                    log.info(Constants.FALL_BACK + " password = {}", loginParameter.getPassword());
                     return initFallBackResponse();
                 }
 
@@ -132,8 +134,8 @@ public interface BookConsumerService {
                  */
                 private BaseResponse initFallBackResponse() {
                     BaseResponse baseResponse = new BaseResponse();
-                    baseResponse.setCode(-99);
-                    baseResponse.setMessage("无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");
+                    baseResponse.setCode(ResponseStatus.FALL_BACK.getCode());
+                    baseResponse.setMessage(ResponseStatus.FALL_BACK.getMessage());
                     return baseResponse;
                 }
             };

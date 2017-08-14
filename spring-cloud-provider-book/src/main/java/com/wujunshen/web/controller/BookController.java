@@ -7,6 +7,7 @@ import com.wujunshen.web.vo.response.BaseResponse;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ import java.util.List;
 @RestController
 @Api(value = "/")
 @Slf4j
-public class BookController {
+public class BookController extends BaseController {
     @Resource
     private BookService bookService;
 
@@ -42,8 +43,13 @@ public class BookController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book) {
-        BaseResponse baseResponse = new BaseResponse();
+    public BaseResponse saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book, BindingResult bindingResult) {
+        BaseResponse baseResponse = getValidatedResult(bindingResult);
+        if (baseResponse != null) {
+            return baseResponse;
+        }
+
+        baseResponse = new BaseResponse();
         int flag = bookService.saveBook(book);
         if (flag != 0) {
             baseResponse.setCode(ResponseStatus.OK.getCode());
@@ -71,9 +77,14 @@ public class BookController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse getBooks() {
+    public BaseResponse getBooks(BindingResult bindingResult) {
+        BaseResponse baseResponse = getValidatedResult(bindingResult);
+        if (baseResponse != null) {
+            return baseResponse;
+        }
+
+        baseResponse = new BaseResponse();
         List<Book> books = bookService.getBooks();
-        BaseResponse baseResponse = new BaseResponse();
         if ((books != null) && (!books.isEmpty())) {
             baseResponse.setData(books);
             baseResponse.setCode(ResponseStatus.OK.getCode());
@@ -102,10 +113,15 @@ public class BookController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
+    public BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable("bookId") Integer bookId, BindingResult bindingResult) {
         log.info("请求参数bookId值：{}", bookId);
         Book book = bookService.getBook(bookId);
-        BaseResponse baseResponse = new BaseResponse();
+        BaseResponse baseResponse = getValidatedResult(bindingResult);
+        if (baseResponse != null) {
+            return baseResponse;
+        }
+
+        baseResponse = new BaseResponse();
         if (book != null) {
             log.info("查询到书籍ID为{}的书籍", bookId);
             baseResponse.setData(book);
@@ -132,9 +148,14 @@ public class BookController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse updateBook(@NotNull @ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @Validated @NotNull @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book) {
+    public BaseResponse updateBook(@NotNull @ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @Validated @NotNull @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book, BindingResult bindingResult) {
         log.info("请求参数bookId值：{}", bookId);
-        BaseResponse baseResponse = new BaseResponse();
+        BaseResponse baseResponse = getValidatedResult(bindingResult);
+        if (baseResponse != null) {
+            return baseResponse;
+        }
+
+        baseResponse = new BaseResponse();
         if (bookId == null && book == null) {
             baseResponse.setCode(ResponseStatus.DATA_INPUT_ERROR.getCode());
             baseResponse.setMessage(ResponseStatus.DATA_INPUT_ERROR.getMessage());
@@ -172,8 +193,13 @@ public class BookController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
-        BaseResponse baseResponse = new BaseResponse();
+    public BaseResponse deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, BindingResult bindingResult) {
+        BaseResponse baseResponse = getValidatedResult(bindingResult);
+        if (baseResponse != null) {
+            return baseResponse;
+        }
+
+        baseResponse = new BaseResponse();
         if (bookService.deleteBook(bookId) != 1) {
             baseResponse.setData("Deleted book failed id=" + bookId);
             baseResponse.setCode(ResponseStatus.DATA_DELETED_ERROR.getCode());

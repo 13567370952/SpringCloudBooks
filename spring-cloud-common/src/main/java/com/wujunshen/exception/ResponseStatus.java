@@ -20,7 +20,8 @@ public enum ResponseStatus {
     INVALID_USER_NAME(301, "用户名错误"),
     INVALID_PASSWORD(302, "密码错误"),
     INVALID_TOKEN(303, "access_token无效"),
-    NO_AUTHORIZATION(304, "无Authorization传入");
+    NO_AUTHORIZATION(304, "无Authorization传入"),
+    FALL_BACK(501, "无法访问服务，该服务可能由于某种未知原因被关闭。请重启服务！");
 
     // 成员变量
     private int code;
