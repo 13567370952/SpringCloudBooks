@@ -8,10 +8,10 @@ import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class BookController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book, BindingResult bindingResult) {
+    public BaseResponse saveBook(@Valid @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book, BindingResult bindingResult) {
         BaseResponse baseResponse = getValidatedResult(bindingResult);
         if (baseResponse != null) {
             return baseResponse;
@@ -138,7 +138,7 @@ public class BookController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse updateBook(@NotNull @ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @Validated @NotNull @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book, BindingResult bindingResult) {
+    public BaseResponse updateBook(@NotNull @ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @Valid @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book, BindingResult bindingResult) {
         log.info("请求参数bookId值：{}", bookId);
         BaseResponse baseResponse = getValidatedResult(bindingResult);
         if (baseResponse != null) {

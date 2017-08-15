@@ -11,7 +11,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -49,7 +48,7 @@ public class BookConsumerController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody @Valid Book book, BindingResult bindingResult) {
+    public BaseResponse saveBook(@ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody @Valid Book book, BindingResult bindingResult) {
         BaseResponse baseResponse = getValidatedResult(bindingResult);
         if (baseResponse != null) {
             return baseResponse;
