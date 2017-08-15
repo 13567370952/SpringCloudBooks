@@ -13,12 +13,12 @@ import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * User:frankwoo(吴峻申) <br>
@@ -47,7 +47,7 @@ public class JWTController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse getAccessToken(@ApiParam(value = "登录信息", required = true) @RequestBody @Validated LoginParameter loginParameter, BindingResult bindingResult) {
+    public BaseResponse getAccessToken(@ApiParam(value = "登录信息", required = true) @RequestBody @Valid LoginParameter loginParameter, BindingResult bindingResult) {
         BaseResponse baseResponse;
 
         baseResponse = getValidatedResult(bindingResult);

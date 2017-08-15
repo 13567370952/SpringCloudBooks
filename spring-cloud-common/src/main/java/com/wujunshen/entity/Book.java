@@ -2,6 +2,9 @@ package com.wujunshen.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
 
 @ApiModel(value = "书籍信息")
 public class Book {
@@ -20,6 +23,8 @@ public class Book {
      *
      * @mbggenerated Tue Aug 08 17:20:32 CST 2017
      */
+    @NotNull(message = "不能为null")
+    @NotBlank(message = "不能为空")
     @ApiModelProperty(value = "书名", required = true)
     private String bookName;
 
@@ -29,6 +34,8 @@ public class Book {
      *
      * @mbggenerated Tue Aug 08 17:20:32 CST 2017
      */
+    @NotNull(message = "不能为null")
+    @NotBlank(message = "不能为空")
     @ApiModelProperty(value = "出版社名", required = true)
     private String publisher;
 

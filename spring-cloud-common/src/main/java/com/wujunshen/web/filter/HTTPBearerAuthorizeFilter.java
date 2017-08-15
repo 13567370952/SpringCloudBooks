@@ -10,9 +10,9 @@ import com.wujunshen.util.JwtUtils;
 import com.wujunshen.web.vo.security.Audience;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,10 +25,10 @@ import java.io.IOException;
  */
 @Slf4j
 public class HTTPBearerAuthorizeFilter extends ZuulFilter {
-    @Autowired
+    @Resource
     private Audience audience;
 
-    @Autowired
+    @Resource
     private ResponseHandler responseHandler;
 
     /**

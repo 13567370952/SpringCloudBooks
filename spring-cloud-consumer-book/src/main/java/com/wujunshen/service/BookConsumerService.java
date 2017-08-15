@@ -53,9 +53,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse saveBook(String authorizationToken, Book book) {
-                    log.info(Constants.FALL_BACK + " bookId = {}", book.getBookId());
-                    log.info(Constants.FALL_BACK + " bookName = {}", book.getBookName());
-                    log.info(Constants.FALL_BACK + " publisher = {}", book.getPublisher());
+                    log.info(Constants.FALL_BACK + "bookId = {}", book.getBookId());
+                    log.info(Constants.FALL_BACK + "bookName = {}", book.getBookName());
+                    log.info(Constants.FALL_BACK + "publisher = {}", book.getPublisher());
                     return initFallBackResponse();
                 }
 
@@ -80,7 +80,7 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse getBook(String authorizationToken, Integer bookId) {
-                    log.info(Constants.FALL_BACK + " bookId = {}", bookId);
+                    log.info(Constants.FALL_BACK + "bookId = {}", bookId);
                     return initFallBackResponse();
                 }
 
@@ -94,9 +94,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse updateBook(String authorizationToken, Integer bookId, Book book) {
-                    log.info(Constants.FALL_BACK + " bookId = {}", bookId);
-                    log.info(Constants.FALL_BACK + " bookName = {}", book.getBookName());
-                    log.info(Constants.FALL_BACK + " publisher = {}", book.getPublisher());
+                    log.info(Constants.FALL_BACK + "bookId = {}", bookId);
+                    log.info(Constants.FALL_BACK + "bookName = {}", book.getBookName());
+                    log.info(Constants.FALL_BACK + "publisher = {}", book.getPublisher());
                     return initFallBackResponse();
                 }
 
@@ -109,7 +109,7 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse deleteBook(String authorizationToken, Integer bookId) {
-                    log.info(Constants.FALL_BACK + " bookId = {}", bookId);
+                    log.info(Constants.FALL_BACK + "bookId = {}", bookId);
                     return initFallBackResponse();
                 }
 
@@ -121,9 +121,9 @@ public interface BookConsumerService {
                  */
                 @Override
                 public BaseResponse getToken(LoginParameter loginParameter) {
-                    log.info(Constants.FALL_BACK + " clientId = {}", loginParameter.getClientId());
-                    log.info(Constants.FALL_BACK + " userName = {}", loginParameter.getUserName());
-                    log.info(Constants.FALL_BACK + " password = {}", loginParameter.getPassword());
+                    log.info(Constants.FALL_BACK + "clientId = {}", loginParameter.getClientId());
+                    log.info(Constants.FALL_BACK + "userName = {}", loginParameter.getUserName());
+                    log.info(Constants.FALL_BACK + "password = {}", loginParameter.getPassword());
                     return initFallBackResponse();
                 }
 

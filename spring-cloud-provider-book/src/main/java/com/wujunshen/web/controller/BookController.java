@@ -50,11 +50,11 @@ public class BookController extends BaseController {
         }
 
         baseResponse = new BaseResponse();
-        int flag = bookService.saveBook(book);
-        if (flag != 0) {
+        bookService.saveBook(book);
+        if (book.getBookId() != 0) {
             baseResponse.setCode(ResponseStatus.OK.getCode());
             baseResponse.setMessage(ResponseStatus.OK.getMessage());
-            baseResponse.setData(flag);
+            baseResponse.setData(book.getBookId());
         } else {
             baseResponse.setCode(ResponseStatus.DATA_CREATE_ERROR.getCode());
             baseResponse.setMessage(ResponseStatus.DATA_CREATE_ERROR.getMessage());
@@ -77,13 +77,8 @@ public class BookController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse getBooks(BindingResult bindingResult) {
-        BaseResponse baseResponse = getValidatedResult(bindingResult);
-        if (baseResponse != null) {
-            return baseResponse;
-        }
-
-        baseResponse = new BaseResponse();
+    public BaseResponse getBooks() {
+        BaseResponse baseResponse = new BaseResponse();
         List<Book> books = bookService.getBooks();
         if ((books != null) && (!books.isEmpty())) {
             baseResponse.setData(books);
@@ -113,15 +108,10 @@ public class BookController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable("bookId") Integer bookId, BindingResult bindingResult) {
+    public BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
         log.info("请求参数bookId值：{}", bookId);
         Book book = bookService.getBook(bookId);
-        BaseResponse baseResponse = getValidatedResult(bindingResult);
-        if (baseResponse != null) {
-            return baseResponse;
-        }
-
-        baseResponse = new BaseResponse();
+        BaseResponse baseResponse = new BaseResponse();
         if (book != null) {
             log.info("查询到书籍ID为{}的书籍", bookId);
             baseResponse.setData(book);
@@ -193,13 +183,8 @@ public class BookController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, BindingResult bindingResult) {
-        BaseResponse baseResponse = getValidatedResult(bindingResult);
-        if (baseResponse != null) {
-            return baseResponse;
-        }
-
-        baseResponse = new BaseResponse();
+    public BaseResponse deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
+        BaseResponse baseResponse = new BaseResponse();
         if (bookService.deleteBook(bookId) != 1) {
             baseResponse.setData("Deleted book failed id=" + bookId);
             baseResponse.setCode(ResponseStatus.DATA_DELETED_ERROR.getCode());

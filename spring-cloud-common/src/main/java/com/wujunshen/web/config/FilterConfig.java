@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableZuulProxy
 public class FilterConfig {
-
     @Bean
     public HTTPBearerAuthorizeFilter accessFilter() {
         return new HTTPBearerAuthorizeFilter();
     }
+
 }

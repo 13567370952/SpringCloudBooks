@@ -1,7 +1,6 @@
 package com.wujunshen.web.controller;
 
 import com.wujunshen.entity.Book;
-import com.wujunshen.exception.ResponseStatus;
 import com.wujunshen.service.BookConsumerService;
 import com.wujunshen.util.Constants;
 import com.wujunshen.web.vo.response.BaseResponse;
@@ -10,17 +9,13 @@ import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.MediaType;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import javax.validation.Valid;
 
 /**
  * User:frankwoo(吴峻申) <br>
@@ -54,25 +49,13 @@ public class BookConsumerController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody Book book, BindingResult bindingResult) {
+    public BaseResponse saveBook(@Validated @ApiParam(value = "添加的某本书籍信息", required = true) @RequestBody @Valid Book book, BindingResult bindingResult) {
         BaseResponse baseResponse = getValidatedResult(bindingResult);
         if (baseResponse != null) {
             return baseResponse;
         }
 
-        String jwtToken = stringRedisTemplate.opsForValue().get(Constants.BEARER);
-
-        ValueOperations<String, LoginParameter> operations = redisTemplate.opsForValue();
-        LoginParameter loginParameter = operations.get(Constants.LOGIN_PARAMETER);
-
-        if (!ObjectUtils.isEmpty(jwtToken)) {
-            baseResponse = bookConsumerService.saveBook(Constants.BEARER + " " + jwtToken, book);
-
-            if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-                return baseResponse;
-            }
-        }
-        return saveBook(book, loginParameter);
+        return bookConsumerService.saveBook(Constants.BEARER + " " + stringRedisTemplate.opsForValue().get(Constants.BEARER), book);
     }
 
     /**
@@ -89,25 +72,8 @@ public class BookConsumerController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse getBooks(BindingResult bindingResult) {
-        BaseResponse baseResponse = getValidatedResult(bindingResult);
-        if (baseResponse != null) {
-            return baseResponse;
-        }
-
-        String jwtToken = stringRedisTemplate.opsForValue().get(Constants.BEARER);
-
-        ValueOperations<String, LoginParameter> operations = redisTemplate.opsForValue();
-        LoginParameter loginParameter = operations.get(Constants.LOGIN_PARAMETER);
-
-        if (!ObjectUtils.isEmpty(jwtToken)) {
-            baseResponse = bookConsumerService.getBooks(Constants.BEARER + " " + jwtToken);
-
-            if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-                return baseResponse;
-            }
-        }
-        return getBooks(loginParameter);
+    public BaseResponse getBooks() {
+        return bookConsumerService.getBooks(Constants.BEARER + " " + stringRedisTemplate.opsForValue().get(Constants.BEARER));
     }
 
     @GetMapping(value = "/consumer/{bookId:[0-9]*}")
@@ -121,27 +87,8 @@ public class BookConsumerController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable Integer bookId, BindingResult bindingResult) {
-        BaseResponse baseResponse = getValidatedResult(bindingResult);
-        if (baseResponse != null) {
-            return baseResponse;
-        }
-
-        //1.从redis取token，没有取到token就调用getBaseResponse方法，有就执行getBook方法
-        //2.执行getBook方法后，如果发现token无效，则也调用getBaseResponse方法，有效就返回getBook方法的响应消息
-        String jwtToken = stringRedisTemplate.opsForValue().get(Constants.BEARER);
-
-        ValueOperations<String, LoginParameter> operations = redisTemplate.opsForValue();
-        LoginParameter loginParameter = operations.get(Constants.LOGIN_PARAMETER);
-
-        if (!ObjectUtils.isEmpty(jwtToken)) {
-            baseResponse = bookConsumerService.getBook(Constants.BEARER + " " + jwtToken, bookId);
-
-            if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-                return baseResponse;
-            }
-        }
-        return getBook(bookId, loginParameter);
+    public BaseResponse getBook(@ApiParam(value = "书籍ID", required = true) @PathVariable Integer bookId) {
+        return bookConsumerService.getBook(Constants.BEARER + " " + stringRedisTemplate.opsForValue().get(Constants.BEARER), bookId);
     }
 
     @PutMapping(value = "/consumer/books/{bookId:[0-9]*}")
@@ -155,25 +102,13 @@ public class BookConsumerController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse updateBook(@ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody Book book, BindingResult bindingResult) {
+    public BaseResponse updateBook(@ApiParam(value = "要更新的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, @ApiParam(value = "要更新的某本书籍信息", required = true) @RequestBody @Valid Book book, BindingResult bindingResult) {
         BaseResponse baseResponse = getValidatedResult(bindingResult);
         if (baseResponse != null) {
             return baseResponse;
         }
 
-        String jwtToken = stringRedisTemplate.opsForValue().get(Constants.BEARER);
-
-        ValueOperations<String, LoginParameter> operations = redisTemplate.opsForValue();
-        LoginParameter loginParameter = operations.get(Constants.LOGIN_PARAMETER);
-
-        if (!ObjectUtils.isEmpty(jwtToken)) {
-            baseResponse = bookConsumerService.updateBook(Constants.BEARER + " " + jwtToken, bookId, book);
-
-            if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-                return baseResponse;
-            }
-        }
-        return updateBook(bookId, book, loginParameter);
+        return bookConsumerService.updateBook(Constants.BEARER + " " + stringRedisTemplate.opsForValue().get(Constants.BEARER), bookId, book);
     }
 
     @DeleteMapping(value = "/consumer/books/{bookId:[0-9]*}")
@@ -187,136 +122,7 @@ public class BookConsumerController extends BaseController {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
-    public BaseResponse deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId, BindingResult bindingResult) {
-        BaseResponse baseResponse = getValidatedResult(bindingResult);
-        if (baseResponse != null) {
-            return baseResponse;
-        }
-
-        String jwtToken = stringRedisTemplate.opsForValue().get(Constants.BEARER);
-
-        ValueOperations<String, LoginParameter> operations = redisTemplate.opsForValue();
-        LoginParameter loginParameter = operations.get(Constants.LOGIN_PARAMETER);
-
-        if (!ObjectUtils.isEmpty(jwtToken)) {
-            baseResponse = bookConsumerService.deleteBook(Constants.BEARER + " " + jwtToken, bookId);
-
-            if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-                return baseResponse;
-            }
-        }
-        return deleteBook(bookId, loginParameter);
-    }
-
-    /**
-     * 调用获取token的方法，成功就直接请求getBook方法，否则就返回出错的响应消息
-     *
-     * @param bookId
-     * @param loginParameter
-     * @return
-     */
-    private BaseResponse getBook(Integer bookId, LoginParameter loginParameter) {
-        BaseResponse baseResponse = bookConsumerService.getToken(loginParameter);
-
-        if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-            Map tokenMap = (HashMap) baseResponse.getData();
-            log.info(Constants.TOKEN_TYPE + " {}", tokenMap.get(Constants.TOKEN_TYPE));
-            log.info(Constants.ACCESS_TOKEN + " {}", tokenMap.get(Constants.ACCESS_TOKEN));
-            log.info(Constants.EXPIRES_IN + " {}", tokenMap.get(Constants.EXPIRES_IN));
-
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get(Constants.ACCESS_TOKEN), ((Integer) tokenMap.get(Constants.EXPIRES_IN)).longValue(), TimeUnit.SECONDS);
-            return bookConsumerService.getBook(Constants.BEARER + " " + tokenMap.get(Constants.ACCESS_TOKEN), bookId);
-        }
-
-        return baseResponse;
-    }
-
-    /**
-     * 调用获取token的方法，成功就直接请求getBook方法，否则就返回出错的响应消息
-     *
-     * @param book
-     * @param loginParameter
-     * @return
-     */
-    private BaseResponse saveBook(Book book, LoginParameter loginParameter) {
-        BaseResponse baseResponse = bookConsumerService.getToken(loginParameter);
-
-        if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-            Map tokenMap = (HashMap) baseResponse.getData();
-            log.info(Constants.TOKEN_TYPE + " {}", tokenMap.get(Constants.TOKEN_TYPE));
-            log.info(Constants.ACCESS_TOKEN + " {}", tokenMap.get(Constants.ACCESS_TOKEN));
-            log.info(Constants.EXPIRES_IN + " {}", tokenMap.get(Constants.EXPIRES_IN));
-
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get(Constants.ACCESS_TOKEN), ((Integer) tokenMap.get(Constants.EXPIRES_IN)).longValue(), TimeUnit.SECONDS);
-            return bookConsumerService.saveBook(Constants.BEARER + " " + tokenMap.get(Constants.ACCESS_TOKEN), book);
-        }
-
-        return baseResponse;
-    }
-
-    /**
-     * 调用获取token的方法，成功就直接请求getBook方法，否则就返回出错的响应消息
-     *
-     * @param loginParameter
-     * @return
-     */
-    private BaseResponse getBooks(LoginParameter loginParameter) {
-        BaseResponse baseResponse = bookConsumerService.getToken(loginParameter);
-
-        if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-            Map tokenMap = (HashMap) baseResponse.getData();
-            log.info(Constants.TOKEN_TYPE + " {}", tokenMap.get(Constants.TOKEN_TYPE));
-            log.info(Constants.ACCESS_TOKEN + " {}", tokenMap.get(Constants.ACCESS_TOKEN));
-            log.info(Constants.EXPIRES_IN + " {}", tokenMap.get(Constants.EXPIRES_IN));
-
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get(Constants.ACCESS_TOKEN), ((Integer) tokenMap.get(Constants.EXPIRES_IN)).longValue(), TimeUnit.SECONDS);
-            return bookConsumerService.getBooks(Constants.BEARER + " " + tokenMap.get(Constants.ACCESS_TOKEN));
-        }
-
-        return baseResponse;
-    }
-
-    /**
-     * 调用获取token的方法，成功就直接请求getBook方法，否则就返回出错的响应消息
-     *
-     * @param loginParameter
-     * @return
-     */
-    private BaseResponse updateBook(Integer bookId, Book book, LoginParameter loginParameter) {
-        BaseResponse baseResponse = bookConsumerService.getToken(loginParameter);
-
-        if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-            Map tokenMap = (HashMap) baseResponse.getData();
-            log.info(Constants.TOKEN_TYPE + " {}", tokenMap.get(Constants.TOKEN_TYPE));
-            log.info(Constants.ACCESS_TOKEN + " {}", tokenMap.get(Constants.ACCESS_TOKEN));
-            log.info(Constants.EXPIRES_IN + " {}", tokenMap.get(Constants.EXPIRES_IN));
-
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get(Constants.ACCESS_TOKEN), ((Integer) tokenMap.get(Constants.EXPIRES_IN)).longValue(), TimeUnit.SECONDS);
-            return bookConsumerService.updateBook(Constants.BEARER + " " + tokenMap.get(Constants.ACCESS_TOKEN), bookId, book);
-        }
-
-        return baseResponse;
-    }
-
-    /**
-     * 调用获取token的方法，成功就直接请求getBook方法，否则就返回出错的响应消息
-     *
-     * @param loginParameter
-     * @return
-     */
-    private BaseResponse deleteBook(Integer bookId, LoginParameter loginParameter) {
-        BaseResponse baseResponse = bookConsumerService.getToken(loginParameter);
-
-        if (baseResponse.getCode() == ResponseStatus.OK.getCode()) {
-            Map tokenMap = (HashMap) baseResponse.getData();
-            log.info(Constants.TOKEN_TYPE + " {}", tokenMap.get(Constants.TOKEN_TYPE));
-            log.info(Constants.ACCESS_TOKEN + " {}", tokenMap.get(Constants.ACCESS_TOKEN));
-            log.info(Constants.EXPIRES_IN + " {}", tokenMap.get(Constants.EXPIRES_IN));
-
-            stringRedisTemplate.opsForValue().set(Constants.BEARER, (String) tokenMap.get(Constants.ACCESS_TOKEN), ((Integer) tokenMap.get(Constants.EXPIRES_IN)).longValue(), TimeUnit.SECONDS);
-            return bookConsumerService.deleteBook(Constants.BEARER + " " + tokenMap.get(Constants.ACCESS_TOKEN), bookId);
-        }
-
-        return baseResponse;
+    public BaseResponse deleteBook(@ApiParam(value = "要删除的某本书籍ID", required = true) @PathVariable("bookId") Integer bookId) {
+        return bookConsumerService.deleteBook(Constants.BEARER + " " + stringRedisTemplate.opsForValue().get(Constants.BEARER), bookId);
     }
 }
