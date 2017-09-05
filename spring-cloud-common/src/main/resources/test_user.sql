@@ -1,0 +1,1 @@
+INSERT INTO test.user (userName, password, salt, role) VALUES ('wujunshen', '7724febeb20b0314f1a14a305675aa9a', '098f6bcd4621d373cade4e832627b4f6', 'admin');
