@@ -19,7 +19,6 @@
         <module>spring-cloud-consumer-book</module>
         <module>spring-cloud-monitor-dashboard</module>
         <module>spring-cloud-aggregator</module>
-        <!--<module>spring-cloud-config-server</module>-->
         <module>spring-cloud-zipkin-server</module>
         <module>spring-cloud-admin-server</module>
     </modules>
@@ -42,6 +41,11 @@
                 <version>Dalston.SR2</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-client</artifactId>
+                <version>0.8.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
